@@ -1016,5 +1016,11 @@ require('lazy').setup({
   },
 })
 
+require('notify').setup {
+  timeout = 1000,
+  stages = 'static',
+  merge_duplicates = true,
+}
+
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
