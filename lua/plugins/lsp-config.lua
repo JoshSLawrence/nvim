@@ -22,8 +22,10 @@ return {
     {
         "neovim/nvim-lspconfig",
         config = function()
+            local capabilities = require('blink.cmp').get_lsp_capabilities()
             local lspconfig = require("lspconfig")
             lspconfig.lua_ls.setup({
+                capabilities = capabilities,
                 settings = {
                     Lua = {
                         diagnostics = {
@@ -35,7 +37,10 @@ return {
             lspconfig.csharp_ls.setup({})
             lspconfig.powershell_es.setup({})
             lspconfig.bashls.setup({})
-            lspconfig.terraformls.setup({})
+            -- TODO: add logic to broadcast blink.cmp to any given lsp server not just terraform
+            lspconfig.terraformls.setup({
+                capabilities = capabilities,
+            })
 
             vim.api.nvim_create_autocmd("LspAttach", {
                 callback = function(args)
