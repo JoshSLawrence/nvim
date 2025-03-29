@@ -13,3 +13,4 @@ vim.keymap.set('n', '<C-k>', '<cmd> TmuxNavigateUp<CR>', { desc = 'Move focus to
 vim.opt.shiftwidth = 4
 vim.opt.clipboard = "unnamedplus"
 
+vim.cmd "colorscheme catppuccin-mocha"
