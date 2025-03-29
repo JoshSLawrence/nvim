@@ -10,8 +10,15 @@ vim.keymap.set('n', '<C-l>', '<cmd> TmuxNavigateRight<CR>', { desc = 'Move focus
 vim.keymap.set('n', '<C-j>', '<cmd> TmuxNavigateDown<CR>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<cmd> TmuxNavigateUp<CR>', { desc = 'Move focus to the upper window' })
 
+vim.opt.expandtab = true
+vim.opt.softtabstop = 4
 vim.opt.shiftwidth = 4
+vim.opt.tabstop = 4
+
 vim.opt.clipboard = "unnamedplus"
+
+vim.opt.number = true
+vim.opt.relativenumber = true
 
 vim.cmd "colorscheme catppuccin-mocha"
 
