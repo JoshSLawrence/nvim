@@ -1,29 +1,55 @@
-require("config.lazy")
+------------------------------- [VIM Globals] -------------------------------
 
-vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
-vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
-vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
-vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
+--  NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
+vim.g.mapleader = ' '
+vim.g.maplocalleader = ' '
 
-vim.keymap.set('n', '<C-h>', '<cmd> TmuxNavigateLeft<CR>', { desc = 'Move focus to the left window' })
-vim.keymap.set('n', '<C-l>', '<cmd> TmuxNavigateRight<CR>', { desc = 'Move focus to the right window' })
-vim.keymap.set('n', '<C-j>', '<cmd> TmuxNavigateDown<CR>', { desc = 'Move focus to the lower window' })
-vim.keymap.set('n', '<C-k>', '<cmd> TmuxNavigateUp<CR>', { desc = 'Move focus to the upper window' })
+-- NOTE: I have configured plugins that optionally support nerd fonts to query this setting
+vim.g.have_nerd_font = true
+
+------------------------------- [VIM Options] -------------------------------
+
+-- Enable mouse mode
+vim.opt.mouse = 'a'
+
+vim.opt.number = true
+vim.opt.relativenumber = true
 
 vim.opt.expandtab = true
 vim.opt.softtabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.tabstop = 4
 
+-- Don't show the mode, since it's already in the status line
+vim.opt.showmode = false
+
 vim.opt.clipboard = "unnamedplus"
 
-vim.opt.number = true
-vim.opt.relativenumber = true
+------------------------------- [VIM Keymaps] -------------------------------
 
-vim.cmd "colorscheme catppuccin-mocha"
+vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
+vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
+vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
+vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
+
+-- Ensures nav keymaps above work intuitively when tmux panes are used
+vim.keymap.set('n', '<C-h>', '<cmd> TmuxNavigateLeft<CR>', { desc = 'Move focus to the left window' })
+vim.keymap.set('n', '<C-l>', '<cmd> TmuxNavigateRight<CR>', { desc = 'Move focus to the right window' })
+vim.keymap.set('n', '<C-j>', '<cmd> TmuxNavigateDown<CR>', { desc = 'Move focus to the lower window' })
+vim.keymap.set('n', '<C-k>', '<cmd> TmuxNavigateUp<CR>', { desc = 'Move focus to the upper window' })
+
+------------------------------- [Filetype Mappings] -------------------------------
 
 vim.filetype.add({
     extension = {
         tf = 'terraform'
     }
 })
+
+------------------------------- [Plugin Manager] -------------------------------
+
+require("config.lazy")
+
+------------------------------- [Default Theme] -------------------------------
+
+vim.cmd "colorscheme catppuccin-mocha"
