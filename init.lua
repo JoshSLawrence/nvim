@@ -53,4 +53,5 @@ require("config.lazy")
 
 ------------------------------- [Default Theme] -------------------------------
 
-vim.cmd "colorscheme catppuccin-mocha"
+-- vim.cmd("colorscheme catppuccin-mocha")
+vim.cmd("colorscheme tokyonight-night")
