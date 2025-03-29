@@ -14,3 +14,9 @@ vim.opt.shiftwidth = 4
 vim.opt.clipboard = "unnamedplus"
 
 vim.cmd "colorscheme catppuccin-mocha"
+
+vim.filetype.add({
+    extension = {
+        tf = 'terraform'
+    }
+})
