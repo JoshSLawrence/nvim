@@ -15,6 +15,7 @@ return {
 					"markdown_inline",
 					"bash",
 					"regex",
+					"terraform",
 				},
 				sync_install = false,
 				auto_install = true,
