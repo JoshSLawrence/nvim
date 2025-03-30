@@ -9,6 +9,8 @@ vim.g.have_nerd_font = true
 
 ------------------------------- [VIM Options] -------------------------------
 
+vim.opt.colorcolumn = "80"
+
 -- Enable mouse mode
 vim.opt.mouse = "a"
 
