@@ -9,6 +9,9 @@ vim.g.have_nerd_font = true
 
 ------------------------------- [VIM Options] -------------------------------
 
+-- Allow for cross session undo history
+vim.opt.undofile = true
+
 vim.opt.colorcolumn = "80"
 
 vim.opt.wrap = false
