@@ -15,6 +15,7 @@ vim.opt.undofile = true
 -- Fat cursor in insert mode
 vim.opt.guicursor = ""
 
+-- Dark vertical guide line for line length limits
 vim.opt.colorcolumn = "80"
 
 vim.opt.wrap = false
@@ -33,6 +34,7 @@ vim.opt.tabstop = 4
 -- Don't show the mode, since it's already in the status line
 vim.opt.showmode = false
 
+-- Map both neovim registers to the system clipboard
 vim.opt.clipboard = "unnamedplus"
 
 ------------------------------- [VIM Keymaps] -------------------------------
