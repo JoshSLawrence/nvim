@@ -49,6 +49,10 @@ vim.keymap.set("n", "<C-k>", "<cmd> TmuxNavigateUp<CR>", { desc = "Move focus to
 vim.filetype.add({
 	extension = {
 		tf = "terraform",
+		tfstate = "json",
+	},
+	pattern = {
+		[".*/*.tfstate.backup"] = "json",
 	},
 })
 
