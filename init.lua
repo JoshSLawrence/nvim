@@ -12,6 +12,9 @@ vim.g.have_nerd_font = true
 -- Allow for cross session undo history
 vim.opt.undofile = true
 
+-- Fat cursor in insert mode
+vim.opt.guicursor = ""
+
 vim.opt.colorcolumn = "80"
 
 vim.opt.wrap = false
