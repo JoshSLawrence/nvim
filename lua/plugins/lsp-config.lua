@@ -15,7 +15,7 @@ return {
 					lua = { "stylua" },
 					python = { "black" },
 					terraform = { "terraform_fmt" },
-					csharp = { "csharpier" },
+					cs = { "csharpier" },
 				},
 				format_on_save = {
 					lsp_format = "never",
