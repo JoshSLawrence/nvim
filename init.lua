@@ -11,6 +11,8 @@ vim.g.have_nerd_font = true
 
 vim.opt.colorcolumn = "80"
 
+vim.opt.wrap = false
+
 -- Enable mouse mode
 vim.opt.mouse = "a"
 
