@@ -453,13 +453,17 @@ return {
 				desc = "Git Browse",
 				mode = { "n", "v" },
 			},
-			{
-				"<leader>gg",
-				function()
-					Snacks.lazygit()
-				end,
-				desc = "Lazygit",
-			},
+			-- Lazygit behaves weird nested in neovim
+			-- Using a custom keymap instead, to open Lazygit
+			-- in the current working directory, in a new tmux window
+			-- the tmux window closes upon existing Lazygit
+			-- {
+			-- 	"<leader>gg",
+			-- 	function()
+			-- 		Snacks.lazygit()
+			-- 	end,
+			-- 	desc = "Lazygit",
+			-- },
 			{
 				"<leader>un",
 				function()

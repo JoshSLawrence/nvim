@@ -40,6 +40,12 @@ vim.opt.clipboard = "unnamedplus"
 
 ------------------------------- [VIM Keymaps] -------------------------------
 
+vim.keymap.set(
+	"n",
+	"<leader>gg",
+	":!tmux new-window -c '" .. vim.fn.getcwd() .. "' -n lazygit lazygit <CR>",
+	{ desc = "Lazygit", silent = true }
+)
 
 vim.keymap.set("n", "<C-h>", "<C-w><C-h>", { desc = "Move focus to the left window" })
 vim.keymap.set("n", "<C-l>", "<C-w><C-l>", { desc = "Move focus to the right window" })
