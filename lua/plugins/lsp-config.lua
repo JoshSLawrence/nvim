@@ -70,7 +70,7 @@ return {
 		},
 		config = function(_, opts)
 			local lspconfig = require("lspconfig")
-			vim.lsp.inlay_hint.enable(true)
+			vim.lsp.inlay_hint.enable(false)
 
 			---@diagnostic disable-next-line: unused-local
 			for server, config in pairs(opts.servers) do
