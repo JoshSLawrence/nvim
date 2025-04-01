@@ -64,6 +64,7 @@ vim.filetype.add({
 	extension = {
 		tf = "terraform",
 		tfstate = "json",
+		hcl = "terraform",
 	},
 	pattern = {
 		[".*/*.tfstate.backup"] = "json",
