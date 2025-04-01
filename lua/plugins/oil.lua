@@ -13,17 +13,12 @@ return {
 			local oil = require("oil")
 
 			-- open oil with "space" then "o"
-			vim.keymap.set("n", "<leader>o", "<CMD>Oil --float<CR>", { desc = "Open oil in a floating window" })
-
-			-- open oil preview whenever oil buffer is opened
-			vim.api.nvim_create_autocmd("User", {
-				pattern = "OilEnter",
-				callback = vim.schedule_wrap(function(args)
-					if vim.api.nvim_get_current_buf() == args.data.buf and oil.get_cursor_entry() then
-						oil.open_preview()
-					end
-				end),
-			})
+			vim.keymap.set(
+				"n",
+				"<leader>o",
+				"<CMD>Oil --float --preview<CR>",
+				{ desc = "Open oil in a floating window" }
+			)
 
 			oil.setup({
 				-- Oil will take over directory buffers (e.g. `vim .` or `:e src/`)
