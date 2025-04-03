@@ -9,6 +9,9 @@ vim.g.have_nerd_font = true
 
 ------------------------------- [VIM Options] -------------------------------
 
+-- ignore case when search with /
+vim.opt.ignorecase = true
+
 -- Allow for cross session undo history
 vim.opt.undofile = true
 
