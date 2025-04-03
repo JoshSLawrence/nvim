@@ -17,9 +17,8 @@ return {
 					terraform = { "terraform_fmt" },
 					cs = { "csharpier" },
 				},
-				format_on_save = {
+				format_after_save = {
 					lsp_format = "never",
-					async = false,
 					timeout_ms = 500,
 				},
 			})
