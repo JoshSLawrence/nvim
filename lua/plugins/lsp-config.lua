@@ -61,7 +61,9 @@ return {
 			servers = {
 				lua_ls = {},
 				csharp_ls = {},
-				powershell_es = {},
+				powershell_es = {
+					bundle_path = "~/.local/share/nvim/mason/packages/powershell-editor-services/",
+				},
 				bashls = {},
 				terraformls = {},
 			},
