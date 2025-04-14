@@ -13,12 +13,7 @@ return {
 			local oil = require("oil")
 
 			-- open oil with "space" then "o"
-			vim.keymap.set(
-				"n",
-				"<leader>o",
-				"<CMD>Oil --float --preview<CR>",
-				{ desc = "Open oil in a floating window" }
-			)
+			vim.keymap.set("n", "<leader>o", "<CMD>Oil --float<CR>", { desc = "Open oil in a floating window" })
 
 			oil.setup({
 				-- Oil will take over directory buffers (e.g. `vim .` or `:e src/`)
