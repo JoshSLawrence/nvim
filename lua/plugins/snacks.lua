@@ -521,6 +521,12 @@ return {
 			},
 		},
 		init = function()
+			vim.api.nvim_set_keymap(
+				"n",
+				"<leader>q",
+				":lua vim.diagnostic.open_float()<CR>",
+				{ noremap = true, silent = true }
+			)
 			vim.api.nvim_create_autocmd("User", {
 				pattern = "VeryLazy",
 				callback = function()
