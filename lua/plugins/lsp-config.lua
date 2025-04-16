@@ -53,6 +53,8 @@ return {
 					"terraformls",
 					"ts_ls",
 					"eslint",
+					"terraformls",
+					"tflint",
 				},
 				-- NOTE: this is unrelated to "ensure_installed"
 				-- Auto installs lsp / linters configured via lspconfig
@@ -74,6 +76,7 @@ return {
 				bashls = {},
 				terraformls = {},
 				ts_ls = {},
+				tflint = {},
 				eslint = {},
 			},
 		},
