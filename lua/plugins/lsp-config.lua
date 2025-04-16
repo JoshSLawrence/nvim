@@ -16,6 +16,11 @@ return {
 					python = { "black" },
 					terraform = { "terraform_fmt" },
 					cs = { "csharpier" },
+					javascript = { "prettierd", "prettier", stop_after_first = true },
+					typescript = { "prettierd", "prettier", stop_after_first = true },
+					javascriptreact = { "prettierd", "prettier", stop_after_first = true },
+					typescriptreact = { "prettierd", "prettier", stop_after_first = true },
+					json = { "prettierd", "prettier", stop_after_first = true },
 				},
 				format_after_save = {
 					lsp_format = "never",
@@ -46,6 +51,8 @@ return {
 					"powershell_es",
 					"bashls",
 					"terraformls",
+					"ts_ls",
+					"eslint",
 				},
 				-- NOTE: this is unrelated to "ensure_installed"
 				-- Auto installs lsp / linters configured via lspconfig
@@ -66,6 +73,8 @@ return {
 				},
 				bashls = {},
 				terraformls = {},
+				ts_ls = {},
+				eslint = {},
 			},
 		},
 		config = function(_, opts)
