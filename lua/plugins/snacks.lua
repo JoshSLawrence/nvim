@@ -17,6 +17,7 @@ return {
 			picker = {
 				enabled = true,
 				layout = { preset = "ivy" },
+				sources = { explorer = { layout = { layout = { position = "right" } } } },
 			},
 			quickfile = { enabled = true },
 			scope = { enabled = true },
