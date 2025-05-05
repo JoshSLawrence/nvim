@@ -30,6 +30,8 @@ return {
 					json = { "prettierd", "prettier", stop_after_first = true },
 					css = { "prettierd", "prettier", stop_after_first = true },
 					html = { "prettierd", "prettier", stop_after_first = true },
+					yml = { "prettierd", "prettier", stop_after_first = true },
+					yaml = { "prettierd", "prettier", stop_after_first = true },
 				},
 				format_after_save = {
 					lsp_format = "never",
@@ -66,6 +68,8 @@ return {
 					"tflint",
 					"html",
 					"cssls",
+					"dockerls",
+					"docker_compose_language_service",
 				},
 				-- NOTE: this is unrelated to "ensure_installed"
 				-- Auto installs lsp / linters configured via lspconfig
@@ -91,6 +95,8 @@ return {
 				eslint = {},
 				html = {},
 				cssls = {},
+				dockerls = {},
+				docker_compose_language_service = {},
 			},
 		},
 		config = function(_, opts)
