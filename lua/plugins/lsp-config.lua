@@ -11,6 +11,13 @@ return {
 			local conform = require("conform")
 
 			conform.setup({
+				formatters = {
+					csharpier = {
+						command = "csharpier",
+						args = { "format", "--write-stdout" },
+						stdin = true,
+					},
+				},
 				formatters_by_ft = {
 					lua = { "stylua" },
 					python = { "black" },
