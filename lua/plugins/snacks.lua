@@ -17,7 +17,7 @@ return {
 			},
 			picker = {
 				enabled = true,
-				layout = { preset = "ivy" },
+				layout = { preset = "default" },
 				sources = { explorer = { layout = { layout = { position = "right" } } } },
 			},
 			quickfile = { enabled = true },
