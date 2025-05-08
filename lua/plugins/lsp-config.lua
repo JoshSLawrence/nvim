@@ -124,6 +124,8 @@ return {
 					end
 				end,
 			})
+
+			vim.keymap.set("n", "<leader>ca", "<cmd> lua vim.lsp.buf.code_action() <CR>", { desc = "[C]ode [A]ctions" })
 		end,
 	},
 	{
