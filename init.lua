@@ -9,6 +9,9 @@ vim.g.have_nerd_font = true
 
 ------------------------------- [VIM Options] -------------------------------
 
+-- vertical split to right side so that current file stays in postion
+vim.opt.splitright = true
+
 -- ignore case when search with /
 vim.opt.ignorecase = true
 
