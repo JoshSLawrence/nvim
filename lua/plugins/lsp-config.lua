@@ -70,6 +70,7 @@ return {
 					"cssls",
 					"dockerls",
 					"docker_compose_language_service",
+					"pyright",
 				},
 				-- NOTE: this is unrelated to "ensure_installed"
 				-- Auto installs lsp / linters configured via lspconfig
@@ -97,6 +98,7 @@ return {
 				cssls = {},
 				dockerls = {},
 				docker_compose_language_service = {},
+				pyright = {},
 			},
 		},
 		config = function(_, opts)
@@ -143,6 +145,7 @@ return {
 					"bashls",
 					"terraformls",
 					"markdownlint",
+					"pyright",
 				},
 
 				-- NOTE: the integrations below are enabled by default
