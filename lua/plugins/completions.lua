@@ -21,6 +21,7 @@ return {
 			local copilot = require("CopilotChat")
 			copilot.setup()
 			vim.keymap.set("n", "<leader>cc", "<cmd>CopilotChatToggle<CR>", { desc = "Open/Close CopilotChat Window" })
+			vim.keymap.set("n", "<leader>ct", "<cmd>Copilot toggle<CR>", { desc = "[C]opilot [T]oggle" })
 		end,
 	},
 	{
