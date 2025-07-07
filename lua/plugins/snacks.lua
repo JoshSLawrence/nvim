@@ -18,7 +18,23 @@ return {
 			picker = {
 				enabled = true,
 				layout = { preset = "default" },
-				sources = { explorer = { layout = { layout = { position = "right" } } } },
+				sources = {
+					explorer = {
+						win = {
+							input = {
+								keys = {
+									["<C-t>"] = { "tab", mode = { "i", "n" } },
+								},
+							},
+							list = {
+								keys = {
+									["<C-t>"] = "tab",
+								},
+							},
+						},
+						layout = { layout = { position = "right" } },
+					},
+				},
 			},
 			quickfile = { enabled = true },
 			scope = { enabled = true },
