@@ -32,6 +32,7 @@ return {
 					html = { "prettierd", "prettier", stop_after_first = true },
 					yml = { "prettierd", "prettier", stop_after_first = true },
 					yaml = { "prettierd", "prettier", stop_after_first = true },
+					go = { "gofmt", stop_after_first = true },
 				},
 				format_after_save = {
 					lsp_format = "never",
@@ -71,6 +72,7 @@ return {
 					"dockerls",
 					"docker_compose_language_service",
 					"pyright",
+					"gopls",
 				},
 				-- NOTE: this is unrelated to "ensure_installed"
 				-- Auto installs lsp / linters configured via lspconfig
@@ -99,6 +101,7 @@ return {
 				dockerls = {},
 				docker_compose_language_service = {},
 				pyright = {},
+				gopls = {},
 			},
 		},
 		config = function(_, opts)
@@ -148,6 +151,7 @@ return {
 					"terraformls",
 					"markdownlint",
 					"pyright",
+					"gopls",
 				},
 
 				-- NOTE: the integrations below are enabled by default
