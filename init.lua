@@ -74,6 +74,7 @@ vim.filetype.add({
 	},
 	pattern = {
 		[".*/*.tfstate.backup"] = "json",
+		[".*/*.env.*"] = "bash",
 	},
 })
 

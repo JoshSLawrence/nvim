@@ -1,5 +1,23 @@
 return {
 	{
+		"qvalentin/helm-ls.nvim",
+		ft = "helm",
+		opts = {
+			{
+				conceal_templates = {
+					-- enable the replacement of templates with virtual text of their current values
+					enabled = true, -- this might change to false in the future
+				},
+				indent_hints = {
+					-- enable hints for indent and nindent functions
+					enabled = true,
+					-- show the hints only for the line the cursor is on
+					only_for_current_line = true,
+				},
+			},
+		},
+	},
+	{
 		"williamboman/mason.nvim",
 		config = function()
 			require("mason").setup()
@@ -32,6 +50,7 @@ return {
 					html = { "prettierd", "prettier", stop_after_first = true },
 					yml = { "prettierd", "prettier", stop_after_first = true },
 					yaml = { "prettierd", "prettier", stop_after_first = true },
+					go = { "gofmt", stop_after_first = true },
 				},
 				format_after_save = {
 					lsp_format = "never",
@@ -71,11 +90,15 @@ return {
 					"dockerls",
 					"docker_compose_language_service",
 					"pyright",
+					"helm_ls",
+					"yamlls",
+					"gopls",
 				},
 				-- NOTE: this is unrelated to "ensure_installed"
 				-- Auto installs lsp / linters configured via lspconfig
 				-- sounds great... but I have yet to get it to work
 				automatic_installation = false,
+				automatic_enable = true,
 			})
 		end,
 	},
@@ -99,6 +122,9 @@ return {
 				dockerls = {},
 				docker_compose_language_service = {},
 				pyright = {},
+				helm_ls = {},
+				yamlls = {},
+				gopls = {},
 			},
 		},
 		config = function(_, opts)
@@ -119,7 +145,7 @@ return {
 			vim.api.nvim_create_autocmd("LspAttach", {
 				callback = function(args)
 					local client = vim.lsp.get_client_by_id(args.data.client_id)
-					if client.name == "terraformls" then
+					if client ~= nil and client.name == "terraformls" then
 						client.server_capabilities.semanticTokensProvider = nil
 					end
 				end,
@@ -148,6 +174,9 @@ return {
 					"terraformls",
 					"markdownlint",
 					"pyright",
+					"helm_ls",
+					"yamlls",
+					"gopls",
 				},
 
 				-- NOTE: the integrations below are enabled by default
