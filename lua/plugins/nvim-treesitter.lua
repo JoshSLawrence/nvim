@@ -16,6 +16,7 @@ return {
 					"bash",
 					"regex",
 					"terraform",
+					"helm",
 				},
 				sync_install = false,
 				auto_install = true,
