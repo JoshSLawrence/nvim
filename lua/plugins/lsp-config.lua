@@ -98,6 +98,7 @@ return {
 				-- Auto installs lsp / linters configured via lspconfig
 				-- sounds great... but I have yet to get it to work
 				automatic_installation = false,
+				automatic_enable = true,
 			})
 		end,
 	},
