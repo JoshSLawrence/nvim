@@ -71,10 +71,11 @@ vim.filetype.add({
 		tf = "terraform",
 		tfstate = "json",
 		hcl = "terraform",
+		tmux = "tmux",
 	},
 	pattern = {
-		[".*/*.tfstate.backup"] = "json",
-		[".*/*.env.*"] = "bash",
+		[".*%.tfstate.backup"] = "json",
+		[".*%.env%..*"] = "bash",
 	},
 })
 
