@@ -71,10 +71,11 @@ vim.filetype.add({
 		tf = "terraform",
 		tfstate = "json",
 		hcl = "terraform",
+		tmux = "tmux",
 	},
 	pattern = {
-		[".*/*.tfstate.backup"] = "json",
-		[".*/*.env.*"] = "bash",
+		[".*%.tfstate.backup"] = "json",
+		[".*%.env%..*"] = "bash",
 	},
 })
 
@@ -85,4 +86,4 @@ require("config.lazy")
 ------------------------------- [Default Theme] -------------------------------
 
 -- vim.cmd("colorscheme catppuccin-mocha")
-vim.cmd("colorscheme tokyonight-night")
+vim.cmd("colorscheme catppuccin-mocha")
