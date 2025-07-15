@@ -18,93 +18,25 @@ return {
 		},
 	},
 	{
-		"williamboman/mason.nvim",
-		config = function()
-			require("mason").setup()
-		end,
-	},
-	{
-		"stevearc/conform.nvim",
-		config = function()
-			local conform = require("conform")
-
-			conform.setup({
-				formatters = {
-					csharpier = {
-						command = "csharpier",
-						args = { "format", "--write-stdout" },
-						stdin = true,
-					},
-				},
-				formatters_by_ft = {
-					lua = { "stylua" },
-					python = { "black" },
-					terraform = { "terraform_fmt" },
-					cs = { "csharpier" },
-					javascript = { "prettierd", "prettier", stop_after_first = true },
-					typescript = { "prettierd", "prettier", stop_after_first = true },
-					javascriptreact = { "prettierd", "prettier", stop_after_first = true },
-					typescriptreact = { "prettierd", "prettier", stop_after_first = true },
-					json = { "prettierd", "prettier", stop_after_first = true },
-					css = { "prettierd", "prettier", stop_after_first = true },
-					html = { "prettierd", "prettier", stop_after_first = true },
-					yml = { "prettierd", "prettier", stop_after_first = true },
-					yaml = { "prettierd", "prettier", stop_after_first = true },
-					go = { "gofmt", stop_after_first = true },
-				},
-				format_after_save = {
-					lsp_format = "never",
-					timeout_ms = 500,
-				},
-			})
-
-			vim.keymap.set("n", "<leader>cf", function()
-				conform.format({
-					lsp_fallback = false,
-					async = false,
-					timeout_ms = 500,
-				})
-			end, { desc = "Format file or range (in visual mode)" })
-		end,
-	},
-	{
-		-- NOTE: used to ensure LSP servers are installed via Mason
-		-- this shares functionality with mason-tool-installer below mason-tool-installer can be used for this purpose as well
-		-- however, I will use mason-lspconfig to install lsp servers
-		-- and linters and use mason-tool-installer to install everything else
-		"williamboman/mason-lspconfig.nvim",
-		config = function()
-			require("mason-lspconfig").setup({
-				ensure_installed = {
-					"lua_ls",
-					"csharp_ls",
-					"powershell_es",
-					"bashls",
-					"terraformls",
-					"ts_ls",
-					"eslint",
-					"terraformls",
-					"tflint",
-					"html",
-					"cssls",
-					"dockerls",
-					"docker_compose_language_service",
-					"pyright",
-					"helm_ls",
-					"yamlls",
-					"gopls",
-				},
-				-- NOTE: this is unrelated to "ensure_installed"
-				-- Auto installs lsp / linters configured via lspconfig
-				-- sounds great... but I have yet to get it to work
-				automatic_installation = false,
-				automatic_enable = true,
-			})
-		end,
+		-- NOTE: this configures environment for lua dev
+		"folke/lazydev.nvim",
+		ft = "lua", -- only load on lua files
+		opts = {
+			library = {
+				-- See the configuration section for more details
+				-- Load luvit types when the `vim.uv` word is found
+				{ path = "${3rd}/luv/library", words = { "vim%.uv" } },
+			},
+		},
 	},
 	{
 		"neovim/nvim-lspconfig",
-		dependencies = { "saghen/blink.cmp" },
+		dependencies = {
+			"saghen/blink.cmp",
+			"WhoIsSethDaniel/mason-tool-installer.nvim",
+			{ "williamboman/mason.nvim", opts = {} },
+			"williamboman/mason-lspconfig.nvim",
+		},
 		opts = {
 			servers = {
 				lua_ls = {},
@@ -128,80 +60,126 @@ return {
 			},
 		},
 		config = function(_, opts)
-			local lspconfig = require("lspconfig")
-			vim.lsp.inlay_hint.enable(false)
-
-			---@diagnostic disable-next-line: unused-local
-			for server, config in pairs(opts.servers) do
-				-- Add blink.cmp to capabilities property of every lsp server defined above in opts
-				config.capabilities = require("blink.cmp").get_lsp_capabilities(config.capabilities)
-			end
-
-			-- Run require/setup for every lsp server declared above in opts
-			for server, config in pairs(opts.servers) do
-				lspconfig[server].setup(config)
-			end
-
-			vim.api.nvim_create_autocmd("LspAttach", {
-				callback = function(args)
-					local client = vim.lsp.get_client_by_id(args.data.client_id)
-					if client ~= nil and client.name == "terraformls" then
-						client.server_capabilities.semanticTokensProvider = nil
-					end
-				end,
+			local ensure_installed = vim.tbl_keys(opts.servers or {})
+			vim.list_extend(ensure_installed, {
+				"stylua",
+				"csharpier",
+				"black",
+				"markdownlint",
+				"pyright",
 			})
 
-			vim.keymap.set("n", "<leader>ca", "<cmd> lua vim.lsp.buf.code_action() <CR>", { desc = "[C]ode [A]ctions" })
-		end,
-	},
-	{
-		"WhoIsSethDaniel/mason-tool-installer.nvim",
-		dependencies = {
-			"neovim/nvim-lspconfig",
-		},
-		config = function()
-			local installer = require("mason-tool-installer")
-
-			installer.setup({
-				ensure_installed = {
-					"stylua",
-					"csharpier",
-					"black",
-					"lua_ls",
-					"csharp_ls",
-					"powershell_es",
-					"bashls",
-					"terraformls",
-					"markdownlint",
-					"pyright",
-					"helm_ls",
-					"yamlls",
-					"gopls",
-				},
-
-				-- NOTE: the integrations below are enabled by default
-				-- explicity calling mason-lspconfig so I remain aware
-				-- as I am not a fan of implicit defaults
-				-- disabling the rest as I use conform over null-ls
-				-- and I do not use nvim-dap at this time
+			require("mason-tool-installer").setup({
+				ensure_installed = ensure_installed,
 				integrations = {
 					["mason-lspconfig"] = true,
 					["mason-null-ls"] = false,
 					["mason-nvim-dap"] = false,
 				},
 			})
+
+			require("mason-lspconfig").setup({
+				ensure_installed = {}, -- explicitly set to an empty table (Kickstart populates installs via mason-tool-installer)
+				-- NOTE: this is unrelated to "ensure_installed"
+				-- Auto installs lsp / linters configured via lspconfig
+				-- sounds great... but I have yet to get it to work
+				automatic_installation = false,
+				automatic_enable = true,
+				handlers = {
+					function(server_name)
+						local server = opts.servers[server_name] or {}
+						-- This handles overriding only values explicitly passed
+						-- by the server configuration above. Useful when disabling
+						-- certain features of an LSP (for example, turning off formatting for ts_ls)
+						local capabilities = require("blink.cmp").get_lsp_capabilities(server.capabilities)
+						server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
+						require("lspconfig")[server_name].setup(server)
+					end,
+				},
+			})
+
+			vim.api.nvim_create_autocmd("LspAttach", {
+				group = vim.api.nvim_create_augroup("lsp-attach", { clear = true }),
+				callback = function(event)
+					local snacks = require("snacks")
+
+					local client = vim.lsp.get_client_by_id(event.data.client_id)
+					if client == nil then
+						print("Failed to get lsp client")
+						return
+					end
+
+					local map = function(keys, func, desc, mode)
+						mode = mode or "n"
+						vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
+					end
+
+					map("<leader>lr", vim.lsp.buf.rename, "[R]ename")
+					map("<leader>la", vim.lsp.buf.rename, "Code [A]ction", { "n", "x" })
+					map("<leader>lD", vim.lsp.buf.declaration, "[D]eclaration")
+
+					map("<leader>lr", function()
+						snacks.picker.lsp_references()
+					end, "[R]eferences")
+
+					map("<leader>li", function()
+						snacks.picker.lsp_implementations()
+					end, "[I]mplementation")
+
+					map("<leader>ld", function()
+						snacks.picker.lsp_definitions()
+					end, "[G]oto [D]efinition")
+
+					map("<leader>ls", function()
+						snacks.picker.lsp_symbols()
+					end, "Document [S]ymbols")
+
+					map("<leader>lS", function()
+						snacks.picker.lsp_workspace_symbols()
+					end, "Workspace [S]ymbols")
+
+					map("<leader>lt", function()
+						snacks.picker.lsp_type_definitions()
+					end, "[T]ype Definition")
+
+					local client = vim.lsp.get_client_by_id(event.data.client_id)
+					if
+						client
+						and client.supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight, event.buf)
+					then
+						local highlight_augroup =
+							vim.api.nvim_create_augroup("kickstart-lsp-highlight", { clear = false })
+						vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+							buffer = event.buf,
+							group = highlight_augroup,
+							callback = vim.lsp.buf.document_highlight,
+						})
+
+						vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
+							buffer = event.buf,
+							group = highlight_augroup,
+							callback = vim.lsp.buf.clear_references,
+						})
+
+						vim.api.nvim_create_autocmd("LspDetach", {
+							group = vim.api.nvim_create_augroup("kickstart-lsp-detach", { clear = true }),
+							callback = function(event2)
+								vim.lsp.buf.clear_references()
+								vim.api.nvim_clear_autocmds({ group = "kickstart-lsp-highlight", buffer = event2.buf })
+							end,
+						})
+					end
+
+					if
+						client
+						and client.supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint, event.buf)
+					then
+						map("<leader>lh", function()
+							vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = event.buf }))
+						end, "Toggle Inlay [H]ints")
+					end
+				end,
+			})
 		end,
-	},
-	{
-		-- NOTE: this configures environment for lua dev
-		"folke/lazydev.nvim",
-		ft = "lua", -- only load on lua files
-		opts = {
-			library = {
-				-- See the configuration section for more details
-				-- Load luvit types when the `vim.uv` word is found
-				{ path = "${3rd}/luv/library", words = { "vim%.uv" } },
-			},
-		},
 	},
 }
