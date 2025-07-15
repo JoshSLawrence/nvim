@@ -1,30 +1,5 @@
 return {
 	{
-		"zbirenbaum/copilot.lua",
-		opts = {
-			suggestion = { endabled = false },
-			panel = { enabled = false },
-		},
-	},
-	{
-		"CopilotC-Nvim/CopilotChat.nvim",
-		dependencies = {
-			{ "zbirenbaum/copilot.lua" }, -- or zbirenbaum/copilot.lua
-			{ "nvim-lua/plenary.nvim", branch = "master" }, -- for curl, log and async functions
-		},
-		build = "make tiktoken", -- Only on MacOS or Linux
-		opts = {
-			-- See Configuration section for options
-		},
-		-- See Commands section for default commands if you want to lazy load on them
-		config = function()
-			local copilot = require("CopilotChat")
-			copilot.setup()
-			vim.keymap.set("n", "<leader>cc", "<cmd>CopilotChatToggle<CR>", { desc = "Open/Close CopilotChat Window" })
-			vim.keymap.set("n", "<leader>ct", "<cmd>Copilot toggle<CR>", { desc = "[C]opilot [T]oggle" })
-		end,
-	},
-	{
 		"saghen/blink.cmp",
 		dependencies = {
 			"giuxtaposition/blink-cmp-copilot",
@@ -81,12 +56,17 @@ return {
 				},
 			},
 			sources = {
-				default = { "lsp", "path", "snippets", "buffer", "copilot" },
+				default = { "lsp", "path", "snippets", "buffer", "copilot", "lazydev" },
 				per_filetype = {
 					sql = { "snippets", "dadbod", "buffer" },
 				},
 				providers = {
 					dadbod = { name = "Dadbod", module = "vim_dadbod_completion.blink" },
+					lazydev = {
+						name = "LazyDev",
+						module = "lazydev.integrations.blink",
+						score_offset = 100,
+					},
 					copilot = {
 						name = "copilot",
 						module = "blink-cmp-copilot",
@@ -107,5 +87,12 @@ return {
 			fuzzy = { implementation = "prefer_rust_with_warning" },
 		},
 		opts_extend = { "sources.default" },
+    config = function()
+			require("copilot").setup({
+				suggestion = { enabled = false },
+				panel = { enabled = false },
+				vim.keymap.set("n", "<leader>ct", "<cmd>Copilot toggle<CR>", { desc = "[C]opilot [T]oggle" }),
+			})
+    end
 	},
 }
