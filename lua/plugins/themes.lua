@@ -23,4 +23,7 @@ return {
 		priority = 1000,
 		opts = {},
 	},
+	{
+		"ayu-theme/ayu-vim",
+	},
 }
