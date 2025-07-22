@@ -3,7 +3,6 @@ return {
 		"nvim-treesitter/nvim-treesitter",
 		build = ":TSUpdate",
 		config = function()
-			---@diagnostic disable-next-line: missing-fields
 			require("nvim-treesitter.configs").setup({
 				ensure_installed = {
 					"c",
@@ -17,11 +16,14 @@ return {
 					"regex",
 					"terraform",
 					"helm",
-          "html",
-          "css",
-          "tsx",
-          "diff",
+					"html",
+					"css",
+					"tsx",
+					"diff",
+					"c_sharp",
 				},
+				ignore_install = {},
+				modules = {},
 				sync_install = false,
 				auto_install = true,
 				highlight = {
