@@ -32,10 +32,10 @@ return {
 	{
 		"neovim/nvim-lspconfig",
 		dependencies = {
-			"saghen/blink.cmp",
-			"WhoIsSethDaniel/mason-tool-installer.nvim",
 			{ "williamboman/mason.nvim", opts = {} },
+			"WhoIsSethDaniel/mason-tool-installer.nvim",
 			"williamboman/mason-lspconfig.nvim",
+			"saghen/blink.cmp",
 		},
 		opts = {
 			servers = {
@@ -114,8 +114,8 @@ return {
 						vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
 					end
 
-					map("<leader>lr", vim.lsp.buf.rename, "[R]ename")
-					map("<leader>la", vim.lsp.buf.rename, "Code [A]ction", { "n", "x" })
+					map("<leader>lR", vim.lsp.buf.rename, "[R]ename")
+					map("<leader>la", vim.lsp.buf.code_action, "Code [A]ction", { "n", "x" })
 					map("<leader>lD", vim.lsp.buf.declaration, "[D]eclaration")
 
 					map("<leader>lr", function()
