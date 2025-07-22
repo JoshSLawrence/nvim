@@ -3,7 +3,14 @@ return {
 		"saghen/blink.cmp",
 		dependencies = {
 			"giuxtaposition/blink-cmp-copilot",
-			"zbirenbaum/copilot.lua",
+			{
+				"zbirenbaum/copilot.lua",
+				opts = {
+					suggestion = { enabled = false },
+					panel = { enabled = false },
+					vim.keymap.set("n", "<leader>ct", "<cmd>Copilot toggle<CR>", { desc = "[C]opilot [T]oggle" }),
+				},
+			},
 		},
 		version = "1.*",
 		opts = {
@@ -87,12 +94,5 @@ return {
 			fuzzy = { implementation = "prefer_rust_with_warning" },
 		},
 		opts_extend = { "sources.default" },
-    config = function()
-			require("copilot").setup({
-				suggestion = { enabled = false },
-				panel = { enabled = false },
-				vim.keymap.set("n", "<leader>ct", "<cmd>Copilot toggle<CR>", { desc = "[C]opilot [T]oggle" }),
-			})
-    end
 	},
 }
