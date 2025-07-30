@@ -63,11 +63,18 @@ return {
 				},
 			},
 			sources = {
-				default = { "lsp", "path", "snippets", "buffer", "copilot", "lazydev" },
+				default = { "lsp", "path", "snippets", "buffer", "lazydev", "easy-dotnet" },
 				per_filetype = {
 					sql = { "snippets", "dadbod", "buffer" },
 				},
 				providers = {
+					["easy-dotnet"] = {
+						name = "easy-dotnet",
+						enabled = true,
+						module = "easy-dotnet.completion.blink",
+						score_offset = 10000,
+						async = true,
+					},
 					dadbod = { name = "Dadbod", module = "vim_dadbod_completion.blink" },
 					lazydev = {
 						name = "LazyDev",
