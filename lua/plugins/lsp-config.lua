@@ -70,7 +70,18 @@ return {
 				docker_compose_language_service = {},
 				pyright = {},
 				helm_ls = {},
-				yamlls = {},
+				yamlls = {
+					settings = {
+						yaml = {
+							schemas = {
+								["https://raw.githubusercontent.com/microsoft/azure-pipelines-vscode/master/service-schema.json"] = {
+									"**.azure-pipelines.{yml,yaml}",
+									"**.azure.{yml,yaml}",
+								},
+							},
+						},
+					},
+				},
 				gopls = {},
 			},
 		},
