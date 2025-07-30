@@ -87,30 +87,30 @@ return {
 			require("mason-tool-installer").setup({
 				ensure_installed = ensure_installed,
 				integrations = {
+					-- Only used so that lspconfig names can be used
 					["mason-lspconfig"] = true,
 					["mason-null-ls"] = false,
 					["mason-nvim-dap"] = false,
 				},
 			})
 
+			for server, config in pairs(opts.servers) do
+				local capabilities = require("blink.cmp").get_lsp_capabilities(config.capabilities)
+				config.capabilities = vim.tbl_deep_extend("force", {}, capabilities, config.capabilities or {})
+
+				-- NOTE: Roslyn language server is handled by the seblyng/roslyn.nvim
+				-- plugin above, lspconfig should not enable the server. We have the
+				-- server in opts.servers so that mason-tool-installer, installs it.
+				-- WARNING: lspconfig refers to roslyn as roslyn_ls if enable is moved
+				if server ~= "roslyn" then
+					require("lspconfig")[server].setup(config)
+				end
+			end
+
 			require("mason-lspconfig").setup({
-				ensure_installed = {}, -- explicitly set to an empty table (Kickstart populates installs via mason-tool-installer)
-				-- NOTE: this is unrelated to "ensure_installed"
-				-- Auto installs lsp / linters configured via lspconfig
-				-- sounds great... but I have yet to get it to work
+				ensure_installed = {},
 				automatic_installation = false,
-				automatic_enable = true,
-				handlers = {
-					function(server_name)
-						local server = opts.servers[server_name] or {}
-						-- This handles overriding only values explicitly passed
-						-- by the server configuration above. Useful when disabling
-						-- certain features of an LSP (for example, turning off formatting for ts_ls)
-						local capabilities = require("blink.cmp").get_lsp_capabilities(server.capabilities)
-						server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
-						require("lspconfig")[server_name].setup(server)
-					end,
-				},
+				automatic_enable = false,
 			})
 
 			vim.api.nvim_create_autocmd("LspAttach", {
