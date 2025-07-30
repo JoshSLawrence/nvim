@@ -32,15 +32,30 @@ return {
 	{
 		"neovim/nvim-lspconfig",
 		dependencies = {
-			{ "williamboman/mason.nvim", opts = {} },
-			"WhoIsSethDaniel/mason-tool-installer.nvim",
+			{
+				"williamboman/mason.nvim",
+				opts = {
+					registries = {
+						"github:mason-org/mason-registry",
+						"github:Crashdummyy/mason-registry", -- For C# rosyln language server
+					},
+				},
+			},
+			"WhoIsSethDaniel/mason-tool-installer.nvim", -- Only used so that lspconfig names can be used
 			"williamboman/mason-lspconfig.nvim",
 			"saghen/blink.cmp",
+			{
+				"seblyng/roslyn.nvim",
+				ft = "cs",
+				---@module 'roslyn.config'
+				---@type RoslynNvimConfig
+				opts = {},
+			},
 		},
 		opts = {
 			servers = {
 				lua_ls = {},
-				csharp_ls = {},
+				roslyn = {},
 				powershell_es = {
 					bundle_path = "~/.local/share/nvim/mason/packages/powershell-editor-services/",
 				},
