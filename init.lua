@@ -81,6 +81,10 @@ vim.filetype.add({
 		[".*%.tfstate.backup"] = "json",
 		[".*%.env%..*"] = "bash",
 	},
+	filename = {
+		[".aliases"] = "bash",
+		[".exports"] = "bash",
+	},
 })
 
 ------------------------------- [Plugin Manager] -------------------------------
