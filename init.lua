@@ -65,7 +65,7 @@ vim.keymap.set("n", "<C-j>", "<cmd> TmuxNavigateDown<CR>", { desc = "Move focus 
 vim.keymap.set("n", "<C-k>", "<cmd> TmuxNavigateUp<CR>", { desc = "Move focus to the upper window" })
 
 -- Open terminal in vsplit, bind double escape in terminal mode to return to normal mode
-vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", { noremap = true, desc = "Return to normal mode" })
+vim.keymap.set("t", "<Esc>", "<C-\\><C-n>", { noremap = true, desc = "Return to normal mode" })
 vim.keymap.set("n", "<leader>tt", "<cmd>vsplit | terminal<CR>", { noremap = true, desc = "[C]reate [T]erminal" })
 
 ------------------------------- [Filetype Mappings] -------------------------------
