@@ -93,6 +93,7 @@ return {
 				"black",
 				"markdownlint",
 				"pyright",
+				"prettierd",
 			})
 
 			require("mason-tool-installer").setup({
