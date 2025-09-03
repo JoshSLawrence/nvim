@@ -19,7 +19,11 @@ return {
 				enabled = true,
 				layout = { preset = "default" },
 				sources = {
+					files = {
+						hidden = true,
+					},
 					explorer = {
+						hidden = true,
 						win = {
 							input = {
 								keys = {
