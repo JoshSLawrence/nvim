@@ -1,7 +1,7 @@
 return {
 	{
 		"stevearc/conform.nvim",
-    event = "BufWritePre",
+		event = "BufWritePre",
 		keys = {
 			{
 				"<leader>lf",
@@ -36,6 +36,7 @@ return {
 				yml = { "prettierd", "prettier", stop_after_first = true },
 				yaml = { "prettierd", "prettier", stop_after_first = true },
 				go = { "gofmt", stop_after_first = true },
+				["terraform-vars"] = { "terraform_fmt" },
 			},
 			format_after_save = {
 				lsp_format = "never",

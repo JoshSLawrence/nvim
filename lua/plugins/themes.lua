@@ -4,14 +4,16 @@ return {
 		name = "catppuccin",
 		priority = 1000,
 		opts = {
-      transparent_background = true,
-    },
+			transparent_background = true,
+		},
 	},
 	{
 		"folke/tokyonight.nvim",
 		lazy = false,
 		priority = 1000,
-		opts = {},
+		opts = {
+			transparent = true,
+		},
 	},
 	{
 		"rose-pine/neovim",

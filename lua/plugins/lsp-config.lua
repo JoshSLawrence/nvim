@@ -70,6 +70,7 @@ return {
 				docker_compose_language_service = {},
 				pyright = {},
 				helm_ls = {},
+				gh_actions_ls = {},
 				yamlls = {
 					settings = {
 						yaml = {
