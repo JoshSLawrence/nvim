@@ -116,7 +116,8 @@ return {
 				-- server in opts.servers so that mason-tool-installer, installs it.
 				-- WARNING: lspconfig refers to roslyn as roslyn_ls if enable is moved
 				if server ~= "roslyn" then
-					require("lspconfig")[server].setup(config)
+					vim.lsp.config(server, config)
+					vim.lsp.enable(server)
 				end
 			end
 
