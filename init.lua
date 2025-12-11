@@ -68,6 +68,21 @@ vim.keymap.set("n", "<C-k>", "<cmd> TmuxNavigateUp<CR>", { desc = "Move focus to
 vim.keymap.set("t", "<Esc>", "<C-\\><C-n>", { noremap = true, desc = "Return to normal mode" })
 vim.keymap.set("n", "<leader>tt", "<cmd>vsplit | terminal<CR>", { noremap = true, desc = "[C]reate [T]erminal" })
 
+------------------------------- [Auto Commands] -------------------------------
+
+vim.api.nvim_create_autocmd("BufWritePre", {
+	pattern = { "*.html", "*.js", "*.jsx", "*.ts", "*.tsx", "*.vue" },
+	callback = function()
+		local clients = vim.lsp.get_clients()
+		for _, client in ipairs(clients) do
+			if client.name == "tailwindcss" then
+				vim.cmd("TailwindSort")
+				break
+			end
+		end
+	end,
+})
+
 ------------------------------- [Filetype Mappings] -------------------------------
 
 vim.filetype.add({
