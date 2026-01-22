@@ -1,5 +1,56 @@
 return {
 	{
+		"seblyng/roslyn.nvim",
+		ft = { "cs", "razor" },
+		dependencies = {
+			{
+				-- By loading as a dependencies, we ensure that we are available to set
+				-- the handlers for Roslyn.
+				"tris203/rzls.nvim",
+				config = true,
+			},
+		},
+		config = function()
+			-- Use one of the methods in the Integration section to compose the command.
+			local cmd = {}
+
+			vim.lsp.config("roslyn", {
+				cmd = cmd,
+				handlers = require("rzls.roslyn_handlers"),
+				settings = {
+					["csharp|inlay_hints"] = {
+						csharp_enable_inlay_hints_for_implicit_object_creation = true,
+						csharp_enable_inlay_hints_for_implicit_variable_types = true,
+
+						csharp_enable_inlay_hints_for_lambda_parameter_types = true,
+						csharp_enable_inlay_hints_for_types = true,
+						dotnet_enable_inlay_hints_for_indexer_parameters = true,
+						dotnet_enable_inlay_hints_for_literal_parameters = true,
+						dotnet_enable_inlay_hints_for_object_creation_parameters = true,
+						dotnet_enable_inlay_hints_for_other_parameters = true,
+						dotnet_enable_inlay_hints_for_parameters = true,
+						dotnet_suppress_inlay_hints_for_parameters_that_differ_only_by_suffix = true,
+						dotnet_suppress_inlay_hints_for_parameters_that_match_argument_name = true,
+						dotnet_suppress_inlay_hints_for_parameters_that_match_method_intent = true,
+					},
+					["csharp|code_lens"] = {
+						dotnet_enable_references_code_lens = true,
+					},
+				},
+			})
+			vim.lsp.enable("roslyn")
+		end,
+		init = function()
+			-- We add the Razor file types before the plugin loads.
+			vim.filetype.add({
+				extension = {
+					razor = "razor",
+					cshtml = "razor",
+				},
+			})
+		end,
+	},
+	{
 		"qvalentin/helm-ls.nvim",
 		ft = "helm",
 		opts = {
@@ -44,18 +95,12 @@ return {
 			"WhoIsSethDaniel/mason-tool-installer.nvim", -- Only used so that lspconfig names can be used
 			"williamboman/mason-lspconfig.nvim",
 			"saghen/blink.cmp",
-			{
-				"seblyng/roslyn.nvim",
-				ft = "cs",
-				---@module 'roslyn.config'
-				---@type RoslynNvimConfig
-				opts = {},
-			},
 		},
 		opts = {
 			servers = {
 				lua_ls = {},
 				roslyn = {},
+				rzls = {},
 				powershell_es = {
 					bundle_path = "~/.local/share/nvim/mason/packages/powershell-editor-services/",
 				},
@@ -115,7 +160,7 @@ return {
 				-- plugin above, lspconfig should not enable the server. We have the
 				-- server in opts.servers so that mason-tool-installer, installs it.
 				-- WARNING: lspconfig refers to roslyn as roslyn_ls if enable is moved
-				if server ~= "roslyn" then
+				if server ~= "roslyn" or server ~= "rzls" then
 					vim.lsp.config(server, config)
 					vim.lsp.enable(server)
 				end
