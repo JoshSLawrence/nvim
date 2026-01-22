@@ -110,3 +110,9 @@ require("config.lazy")
 
 vim.cmd("colorscheme tokyonight-night")
 -- vim.cmd("colorscheme catppuccin-mocha")
+
+------------------------------- [Manual Commands] -------------------------------
+
+vim.api.nvim_create_user_command("GhosttyConfig", function()
+	vim.cmd("edit $XDG_CONFIG_HOME/ghostty/config")
+end, {})
