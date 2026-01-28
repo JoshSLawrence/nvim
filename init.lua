@@ -83,6 +83,13 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 	end,
 })
 
+vim.api.nvim_create_autocmd("BufReadPost", {
+	pattern = { "*.csv" },
+	callback = function()
+		vim.cmd("CsvViewEnable display_mode=border header_lnum=1")
+	end,
+})
+
 ------------------------------- [Filetype Mappings] -------------------------------
 
 vim.filetype.add({
