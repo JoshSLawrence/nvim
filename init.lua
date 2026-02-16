@@ -48,7 +48,7 @@ vim.opt.clipboard = "unnamedplus"
 
 vim.keymap.set(
 	"n",
-	"<leader>gg",
+	"<leader>lg",
 	":!tmux new-window -c '" .. vim.fn.getcwd() .. "' -n lazygit lazygit <CR>",
 	{ desc = "Lazygit", silent = true }
 )

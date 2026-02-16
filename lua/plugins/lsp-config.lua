@@ -38,6 +38,7 @@ return {
 					registries = {
 						"github:mason-org/mason-registry",
 						"github:Crashdummyy/mason-registry", -- For C# rosyln language server
+						"github:mkindberg/ghostty-ls", -- For Ghostty LS
 					},
 				},
 			},
@@ -98,6 +99,23 @@ return {
 					["mason-null-ls"] = false,
 					["mason-nvim-dap"] = false,
 				},
+			})
+
+			vim.filetype.add({
+				pattern = {
+					[".*/.config/ghostty/config"] = "ghostty",
+				},
+			})
+			vim.lsp.config.ghostty = {
+				cmd = { "ghostty-ls" },
+				filetypes = { "ghostty" },
+			}
+			vim.lsp.enable("ghostty")
+			vim.api.nvim_create_autocmd("FileType", {
+				pattern = "ghostty",
+				callback = function()
+					vim.bo.commentstring = "# %s"
+				end,
 			})
 
 			for server, config in pairs(opts.servers) do
