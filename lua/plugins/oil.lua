@@ -19,7 +19,7 @@ return {
 			-- open oil with "space" then "o"
 			vim.keymap.set(
 				"n",
-				"<leader>o",
+				"<leader>ol",
 				"<CMD>Oil --float --preview<CR>",
 				{ desc = "Open oil in a floating window" }
 			)
