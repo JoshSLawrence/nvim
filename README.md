@@ -1,3 +1,5 @@
+# nvim
+
 Welcome to my neovim configuration repo!
 
-Moving away from Kickstart... so massive WIP for the forseeable future.
+Configuired for Neovim 0.12.0+
