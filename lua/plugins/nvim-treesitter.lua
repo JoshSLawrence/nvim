@@ -22,42 +22,57 @@ return {
 		lazy = false,
 		build = ":TSUpdate",
 		config = function()
-			require("nvim-treesitter").setup({
-				install = {
+			-- Install parsers using the new API
+			require("nvim-treesitter").install({
+				"c",
+				"lua",
+				"vim",
+				"vimdoc",
+				"query",
+				"markdown",
+				"markdown_inline",
+				"bash",
+				"regex",
+				"terraform",
+				"helm",
+				"html",
+				"css",
+				"tsx",
+				"diff",
+				"c_sharp",
+				"dockerfile",
+				"xml",
+				"json",
+				"yaml",
+			})
+
+			-- Enable treesitter highlighting for specific filetypes
+			vim.api.nvim_create_autocmd("FileType", {
+				pattern = {
 					"c",
 					"lua",
 					"vim",
 					"vimdoc",
 					"query",
 					"markdown",
-					"markdown_inline",
 					"bash",
-					"regex",
 					"terraform",
 					"helm",
 					"html",
 					"css",
 					"tsx",
+					"typescript",
+					"typescriptreact",
 					"diff",
-					"c_sharp",
+					"cs",
 					"dockerfile",
 					"xml",
 					"json",
 					"yaml",
 				},
-				sync_install = false,
-				auto_install = true,
-				highlight = {
-					enable = true,
-					disable = function(_, buf)
-						local max_filesize = 100 * 1024 -- 100 KB
-						local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
-						if ok and stats and stats.size > max_filesize then
-							return true
-						end
-					end,
-					additional_vim_regex_highlighting = false,
-				},
+				callback = function()
+					vim.treesitter.start()
+				end,
 			})
 		end,
 	},
