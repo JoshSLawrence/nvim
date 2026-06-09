@@ -106,6 +106,7 @@ vim.filetype.add({
 	filename = {
 		[".aliases"] = "bash",
 		[".exports"] = "bash",
+		[".exports_ignored"] = "bash",
 	},
 })
 
