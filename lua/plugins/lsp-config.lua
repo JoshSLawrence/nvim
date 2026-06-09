@@ -65,6 +65,7 @@ return {
 				pyright = {},
 				helm_ls = {},
 				gh_actions_ls = {},
+				postgres_lsp = {},
 				yamlls = {
 					settings = {
 						yaml = {
