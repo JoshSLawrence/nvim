@@ -3,5 +3,6 @@ repos:
     rev: v6.0.0
     hooks:
       - id: trailing-whitespace
+        exclude: lua/plugins/snacks.lua # header has required whitespace
       - id: check-added-large-files
         args: ["--maxkb=500"]

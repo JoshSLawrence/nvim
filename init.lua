@@ -106,6 +106,7 @@ vim.filetype.add({
 	filename = {
 		[".aliases"] = "bash",
 		[".exports"] = "bash",
+		[".exports_ignored"] = "bash",
 	},
 })
 
@@ -113,13 +114,22 @@ vim.filetype.add({
 
 require("config.lazy")
 
+------------------------------- [Custom Config] -------------------------------
+
+require("config.tailwind-sort").setup()
+
 ------------------------------- [Default Theme] -------------------------------
 
-vim.cmd("colorscheme tokyonight-night")
--- vim.cmd("colorscheme catppuccin-mocha")
+-- vim.cmd("colorscheme tokyonight-night")
+vim.cmd("colorscheme catppuccin-mocha")
+-- vim.cmd("colorscheme catppuccin-latte")
 
 ------------------------------- [Manual Commands] -------------------------------
 
 vim.api.nvim_create_user_command("GhosttyConfig", function()
 	vim.cmd("edit $XDG_CONFIG_HOME/ghostty/config")
+end, {})
+
+vim.api.nvim_create_user_command("LspInfo", function()
+	vim.cmd("checkhealth vim.lsp")
 end, {})

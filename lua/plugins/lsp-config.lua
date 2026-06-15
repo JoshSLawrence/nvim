@@ -1,23 +1,5 @@
 return {
 	{
-		"qvalentin/helm-ls.nvim",
-		ft = "helm",
-		opts = {
-			{
-				conceal_templates = {
-					-- enable the replacement of templates with virtual text of their current values
-					enabled = true, -- this might change to false in the future
-				},
-				indent_hints = {
-					-- enable hints for indent and nindent functions
-					enabled = true,
-					-- show the hints only for the line the cursor is on
-					only_for_current_line = true,
-				},
-			},
-		},
-	},
-	{
 		-- NOTE: this configures environment for lua dev
 		"folke/lazydev.nvim",
 		ft = "lua", -- only load on lua files
@@ -60,11 +42,12 @@ return {
 				eslint = {},
 				html = {},
 				cssls = {},
+				tailwindcss = {},
 				dockerls = {},
 				docker_compose_language_service = {},
 				pyright = {},
-				helm_ls = {},
 				gh_actions_ls = {},
+				postgres_lsp = {},
 				yamlls = {
 					settings = {
 						yaml = {
@@ -182,11 +165,11 @@ return {
 						snacks.picker.lsp_type_definitions()
 					end, "[T]ype Definition")
 
-					local client = vim.lsp.get_client_by_id(event.data.client_id)
-					if
-						client
-						and client.supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight, event.buf)
-					then
+				local client = vim.lsp.get_client_by_id(event.data.client_id)
+				if
+					client
+					and client.server_capabilities.documentHighlightProvider
+				then
 						local highlight_augroup =
 							vim.api.nvim_create_augroup("kickstart-lsp-highlight", { clear = false })
 						vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
@@ -210,10 +193,10 @@ return {
 						})
 					end
 
-					if
-						client
-						and client.supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint, event.buf)
-					then
+				if
+					client
+					and client.server_capabilities.inlayHintProvider
+				then
 						map("<leader>lh", function()
 							vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = event.buf }))
 						end, "Toggle Inlay [H]ints")
