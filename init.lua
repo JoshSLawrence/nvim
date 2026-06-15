@@ -114,6 +114,10 @@ vim.filetype.add({
 
 require("config.lazy")
 
+------------------------------- [Custom Config] -------------------------------
+
+require("config.tailwind-sort").setup()
+
 ------------------------------- [Default Theme] -------------------------------
 
 -- vim.cmd("colorscheme tokyonight-night")

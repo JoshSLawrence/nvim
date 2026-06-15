@@ -42,6 +42,7 @@ return {
 				eslint = {},
 				html = {},
 				cssls = {},
+				tailwindcss = {},
 				dockerls = {},
 				docker_compose_language_service = {},
 				pyright = {},
