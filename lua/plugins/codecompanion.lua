@@ -67,8 +67,30 @@ return {
 				},
 			},
 		},
-		vim.keymap.set("n", "<leader>cc", "<cmd>CodeCompanionChat Toggle<CR>", { desc = "[C]ode[C]ompanion [C]hat" }),
-		vim.keymap.set({ "n", "v" }, "<C-a>", "<cmd>CodeCompanionActions<cr>", { noremap = true, silent = true }),
-		vim.keymap.set("v", "ga", "<cmd>CodeCompanionChat Add<cr>", { noremap = true, silent = true }),
+		config = function(_, opts)
+			require("codecompanion").setup(opts)
+
+			-- Keymaps
+			vim.keymap.set(
+				"n",
+				"<leader>cc",
+				"<cmd>CodeCompanionChat Toggle<CR>",
+				{ desc = "[C]ode[C]ompanion [C]hat" }
+			)
+			vim.keymap.set({ "n", "v" }, "<C-a>", "<cmd>CodeCompanionActions<cr>", { noremap = true, silent = true })
+			vim.keymap.set("v", "ga", "<cmd>CodeCompanionChat Add<cr>", { noremap = true, silent = true })
+
+			-- Copilot toggle
+			local copilot_enabled = false
+			vim.api.nvim_create_user_command("ToggleCopilot", function()
+				if copilot_enabled then
+					vim.cmd("Copilot disable")
+					copilot_enabled = false
+				else
+					vim.cmd("Copilot enable")
+					copilot_enabled = true
+				end
+			end, {})
+		end,
 	},
 }
