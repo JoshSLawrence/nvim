@@ -55,6 +55,7 @@ return {
 								["https://raw.githubusercontent.com/microsoft/azure-pipelines-vscode/master/service-schema.json"] = {
 									"**.azure-pipelines.{yml,yaml}",
 									"**.azure.{yml,yaml}",
+									".azuredevops/pipelines/**.{yml,yaml}",
 								},
 							},
 						},
@@ -165,11 +166,8 @@ return {
 						snacks.picker.lsp_type_definitions()
 					end, "[T]ype Definition")
 
-				local client = vim.lsp.get_client_by_id(event.data.client_id)
-				if
-					client
-					and client.server_capabilities.documentHighlightProvider
-				then
+					local client = vim.lsp.get_client_by_id(event.data.client_id)
+					if client and client.server_capabilities.documentHighlightProvider then
 						local highlight_augroup =
 							vim.api.nvim_create_augroup("kickstart-lsp-highlight", { clear = false })
 						vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
@@ -193,10 +191,7 @@ return {
 						})
 					end
 
-				if
-					client
-					and client.server_capabilities.inlayHintProvider
-				then
+					if client and client.server_capabilities.inlayHintProvider then
 						map("<leader>lh", function()
 							vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = event.buf }))
 						end, "Toggle Inlay [H]ints")
