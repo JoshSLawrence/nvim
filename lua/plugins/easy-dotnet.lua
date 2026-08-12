@@ -5,7 +5,7 @@ return {
 		opts = {
 			picker = "snacks",
 		},
-		config = function(opts)
+		config = function(_, opts)
 			require("easy-dotnet").setup(opts)
 		end,
 	},
