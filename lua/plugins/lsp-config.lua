@@ -87,22 +87,11 @@ return {
 				},
 			})
 
-			vim.filetype.add({
-				pattern = {
-					[".*/.config/ghostty/config"] = "ghostty",
-				},
-			})
 			vim.lsp.config.ghostty = {
 				cmd = { "ghostty-ls" },
 				filetypes = { "ghostty" },
 			}
 			vim.lsp.enable("ghostty")
-			vim.api.nvim_create_autocmd("FileType", {
-				pattern = "ghostty",
-				callback = function()
-					vim.bo.commentstring = "# %s"
-				end,
-			})
 
 			for server, config in pairs(opts.servers) do
 				local capabilities = require("blink.cmp").get_lsp_capabilities(config.capabilities)
