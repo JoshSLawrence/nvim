@@ -63,6 +63,8 @@ return {
 					"tsx",
 					"typescript",
 					"typescriptreact",
+					"javascript",
+					"javascriptreact",
 					"diff",
 					"cs",
 					"dockerfile",
