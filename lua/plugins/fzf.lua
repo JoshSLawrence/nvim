@@ -6,6 +6,8 @@ return {
 		-- or if using mini.icons/mini.nvim
 		-- dependencies = { "echasnovski/mini.icons" },
 		opts = {},
-    vim.keymap.set("n", "<leader>fl", "<cmd>FzfLua<CR>", {desc = "[F]zf[L]ua"}),
+		keys = {
+			{ "<leader>fl", "<cmd>FzfLua<CR>", desc = "[F]zf[L]ua" },
+		},
 	},
 }
