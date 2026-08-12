@@ -1,8 +1,9 @@
 ------------------------------- [VIM Globals] -------------------------------
 
---  NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
+-- Make sure to setup `mapleader` and `maplocalleader` before
+-- loading lazy.nvim so that mappings are correct.
 vim.g.mapleader = " "
-vim.g.maplocalleader = " "
+vim.g.maplocalleader = "\\"
 
 -- NOTE: I have configured plugins that optionally support nerd fonts to query this setting
 vim.g.have_nerd_font = true
