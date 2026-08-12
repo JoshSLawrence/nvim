@@ -29,6 +29,8 @@ return {
 			"saghen/blink.cmp",
 		},
 		opts = {
+			-- Disable virtual text in favor of tiny-inline-diagnostic.nvim
+			diagnostics = { virtual_text = false },
 			servers = {
 				lua_ls = {},
 				roslyn = {},

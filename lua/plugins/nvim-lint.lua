@@ -1,4 +1,13 @@
 return {
+	{
+		"rachartier/tiny-inline-diagnostic.nvim",
+		event = "VeryLazy",
+		priority = 1000,
+		config = function()
+			require("tiny-inline-diagnostic").setup()
+			vim.diagnostic.config({ virtual_text = false }) -- Disable Neovim's default virtual text diagnostics
+		end,
+	},
 	{ -- Linting
 		"mfussenegger/nvim-lint",
 		event = { "BufReadPre", "BufNewFile" },
@@ -9,7 +18,7 @@ return {
 			}
 
 			vim.diagnostic.config({
-				virtual_text = true,
+				virtual_text = false, -- Disable Neovim's default virtual text diagnostics in favor of tiny-inline-diagnostic.nvim
 				update_in_insert = true,
 			})
 
