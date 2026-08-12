@@ -2,11 +2,11 @@ return {
 	{
 		"folke/noice.nvim",
 		event = "VeryLazy",
+		dependencies = {
+			"MunifTanjim/nui.nvim",
+			"rcarriga/nvim-notify",
+		},
 		opts = {
-			dependencies = {
-				"MunifTanjim/nui.nvim",
-				"rcarriga/nvim-notify",
-			},
 			presets = {
 				bottom_search = false, -- use a classic bottom cmdline for search
 				command_palette = false, -- position the cmdline and popupmenu together
