@@ -145,6 +145,13 @@ return {
 						},
 						layout = { layout = { position = "right" } },
 					},
+					todo_comments = {
+						on_show = function(picker)
+							picker.input.statuscolumn = function()
+								return "%#SnacksPickerPrompt# %*"
+							end
+						end,
+					},
 				},
 			},
 			quickfile = { enabled = true },
