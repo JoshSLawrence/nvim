@@ -2,23 +2,27 @@ return {
 	{
 		"windwp/nvim-ts-autotag",
 		opts = {
-			enable_close = true,
-			enable_rename = true,
-			enable_close_on_slash = false,
+			-- NOTE: This plugin opts layout is odd nested opts > opts,
+			-- and opts outside of opts > opts, e.g. opts > per_filetype, opts > enable_close
+			opts = {
+				-- Defaults
+				enable_close = true, -- Auto close tags
+				enable_rename = true, -- Auto rename pairs of tags
+				enable_close_on_slash = false, -- Auto close on trailing </
+			},
+			-- Also override individual filetype configs, these take priority.
+			-- Empty by default, useful if one of the "opts" global settings
+			-- doesn't work well in a specific filetype
+			per_filetype = {
+				["html"] = {
+					enable_close = false,
+				},
+			},
 		},
-	-- Override by filetype:
-	-- per_file_type = {
-	-- 	["html"] = {
-	-- 		enable_close = false,
-	-- 	},
-	-- },
-		config = function(_, opts)
-			require("nvim-ts-autotag").setup(opts)
-		end,
-	},
-	{
-		"windwp/nvim-autopairs",
-		event = "InsertEnter",
-		opts = {},
+		{
+			"windwp/nvim-autopairs",
+			event = "InsertEnter",
+			opts = {},
+		},
 	},
 }
