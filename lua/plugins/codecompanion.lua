@@ -77,7 +77,7 @@ return {
 				"<cmd>CodeCompanionChat Toggle<CR>",
 				{ desc = "[C]ode[C]ompanion [C]hat" }
 			)
-			vim.keymap.set({ "n", "v" }, "<C-a>", "<cmd>CodeCompanionActions<cr>", { noremap = true, silent = true })
+			vim.keymap.set({ "n", "v" }, "<leader>ca", "<cmd>CodeCompanionActions<cr>", { noremap = true, silent = true, desc = "CodeCompanion Actions" })
 			vim.keymap.set("v", "ga", "<cmd>CodeCompanionChat Add<cr>", { noremap = true, silent = true })
 
 			-- Copilot toggle

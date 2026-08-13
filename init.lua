@@ -1,8 +1,9 @@
 ------------------------------- [VIM Globals] -------------------------------
 
---  NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
+-- Make sure to setup `mapleader` and `maplocalleader` before
+-- loading lazy.nvim so that mappings are correct.
 vim.g.mapleader = " "
-vim.g.maplocalleader = " "
+vim.g.maplocalleader = "\\"
 
 -- NOTE: I have configured plugins that optionally support nerd fonts to query this setting
 vim.g.have_nerd_font = true
@@ -53,12 +54,16 @@ vim.keymap.set(
 	{ desc = "Lazygit", silent = true }
 )
 
+-- Window navigation (base keymaps)
+-- Overwritten below for terminal multiplexer compatibility.
+-- TODO: Consider wezterm/harpoon integration if switching from tmux.
 vim.keymap.set("n", "<C-h>", "<C-w><C-h>", { desc = "Move focus to the left window" })
 vim.keymap.set("n", "<C-l>", "<C-w><C-l>", { desc = "Move focus to the right window" })
 vim.keymap.set("n", "<C-j>", "<C-w><C-j>", { desc = "Move focus to the lower window" })
 vim.keymap.set("n", "<C-k>", "<C-w><C-k>", { desc = "Move focus to the upper window" })
 
--- Ensures nav keymaps above work intuitively when tmux panes are used
+-- Tmux-aware navigation (overwrites above when using tmux)
+-- Remove this block if switching to a different multiplexer.
 vim.keymap.set("n", "<C-h>", "<cmd> TmuxNavigateLeft<CR>", { desc = "Move focus to the left window" })
 vim.keymap.set("n", "<C-l>", "<cmd> TmuxNavigateRight<CR>", { desc = "Move focus to the right window" })
 vim.keymap.set("n", "<C-j>", "<cmd> TmuxNavigateDown<CR>", { desc = "Move focus to the lower window" })
@@ -68,7 +73,39 @@ vim.keymap.set("n", "<C-k>", "<cmd> TmuxNavigateUp<CR>", { desc = "Move focus to
 vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", { noremap = true, desc = "Return to normal mode" })
 vim.keymap.set("n", "<leader>tt", "<cmd>vsplit | terminal<CR>", { noremap = true, desc = "[C]reate [T]erminal" })
 
+-- Refresh LSP for current buffer. Fixes stale semantic tokens after external
+-- file changes (e.g., from AI agents). Discovered with terraformls but may
+-- affect other LSP servers that provide semantic tokens.
+local function refresh_lsp()
+	local buf = vim.api.nvim_get_current_buf()
+	for _, client in ipairs(vim.lsp.get_clients({ bufnr = buf })) do
+		client:stop()
+	end
+	-- Re-trigger filetype to restart LSP clients via vim.lsp.enable
+	local ft = vim.bo[buf].filetype
+	vim.bo[buf].filetype = ""
+	vim.schedule(function()
+		vim.bo[buf].filetype = ft
+	end)
+end
+
+vim.keymap.set("n", "<leader>uH", refresh_lsp, { desc = "Refresh LSP" })
+
 ------------------------------- [Auto Commands] -------------------------------
+
+-- Run checktime to detect external file changes. Combined with autoread
+-- (on by default), this auto-reloads buffers modified outside Neovim.
+vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold" }, {
+	command = "checktime",
+})
+
+-- After an external change is detected and the buffer reloads, restart LSP
+-- to clear stale semantic tokens. See refresh_lsp() for details.
+vim.api.nvim_create_autocmd("FileChangedShellPost", {
+	callback = function()
+		vim.schedule(refresh_lsp)
+	end,
+})
 
 vim.api.nvim_create_autocmd("BufWritePre", {
 	pattern = { "*.html", "*.js", "*.jsx", "*.ts", "*.tsx", "*.vue" },
@@ -102,12 +139,20 @@ vim.filetype.add({
 	pattern = {
 		[".*%.tfstate.backup"] = "json",
 		[".*%.env%..*"] = "bash",
+		[".*/.config/ghostty/config"] = "ghostty",
 	},
 	filename = {
 		[".aliases"] = "bash",
 		[".exports"] = "bash",
 		[".exports_ignored"] = "bash",
 	},
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = "ghostty",
+	callback = function()
+		vim.bo.commentstring = "# %s"
+	end,
 })
 
 ------------------------------- [Plugin Manager] -------------------------------

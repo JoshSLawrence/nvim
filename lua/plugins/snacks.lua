@@ -145,6 +145,13 @@ return {
 						},
 						layout = { layout = { position = "right" } },
 					},
+					todo_comments = {
+						on_show = function(picker)
+							picker.input.statuscolumn = function()
+								return "%#SnacksPickerPrompt# %*"
+							end
+						end,
+					},
 				},
 			},
 			quickfile = { enabled = true },
@@ -187,13 +194,6 @@ return {
 					Snacks.picker.command_history()
 				end,
 				desc = "Command History",
-			},
-			{
-				"<leader>n",
-				function()
-					Snacks.picker.notifications()
-				end,
-				desc = "Notification History",
 			},
 			{
 				"<leader>e",
@@ -346,13 +346,6 @@ return {
 					Snacks.picker.autocmds()
 				end,
 				desc = "Autocmds",
-			},
-			{
-				"<leader>sb",
-				function()
-					Snacks.picker.lines()
-				end,
-				desc = "Buffer Lines",
 			},
 			{
 				"<leader>sc",

@@ -29,6 +29,8 @@ return {
 			"saghen/blink.cmp",
 		},
 		opts = {
+			-- Disable virtual text in favor of tiny-inline-diagnostic.nvim
+			diagnostics = { virtual_text = false },
 			servers = {
 				lua_ls = {},
 				roslyn = {},
@@ -85,22 +87,11 @@ return {
 				},
 			})
 
-			vim.filetype.add({
-				pattern = {
-					[".*/.config/ghostty/config"] = "ghostty",
-				},
-			})
 			vim.lsp.config.ghostty = {
 				cmd = { "ghostty-ls" },
 				filetypes = { "ghostty" },
 			}
 			vim.lsp.enable("ghostty")
-			vim.api.nvim_create_autocmd("FileType", {
-				pattern = "ghostty",
-				callback = function()
-					vim.bo.commentstring = "# %s"
-				end,
-			})
 
 			for server, config in pairs(opts.servers) do
 				local capabilities = require("blink.cmp").get_lsp_capabilities(config.capabilities)
@@ -188,12 +179,6 @@ return {
 							group = highlight_augroup,
 							callback = vim.lsp.buf.clear_references,
 						})
-					end
-
-					if client.server_capabilities.inlayHintProvider then
-						map("<leader>lh", function()
-							vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = event.buf }))
-						end, "Toggle Inlay [H]ints")
 					end
 				end,
 			})

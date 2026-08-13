@@ -2,7 +2,23 @@ return {
 	{
 		"folke/todo-comments.nvim",
 		dependencies = { "nvim-lua/plenary.nvim" },
+		event = { "BufReadPost", "BufNewFile" },
 		opts = {},
-		vim.keymap.set("n", "<leader>td", "<cmd>TodoTelescope<CR>", { desc = "[T]o[D]o" }),
+		keys = {
+			{
+				"<leader>td",
+				function()
+					Snacks.picker.todo_comments()
+				end,
+				desc = "All Todos",
+			},
+			{
+				"<leader>tD",
+				function()
+					Snacks.picker.todo_comments({ keywords = { "TODO", "FIX", "FIXME" } })
+				end,
+				desc = "Todo/Fix/Fixme",
+			},
+		},
 	},
 }
