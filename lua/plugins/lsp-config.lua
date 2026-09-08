@@ -130,7 +130,7 @@ return {
 
 					local client = vim.lsp.get_client_by_id(event.data.client_id)
 					if client == nil then
-						print("Failed to get lsp client")
+						vim.notify("Failed to get LSP client", vim.log.levels.ERROR)
 						return
 					end
 
