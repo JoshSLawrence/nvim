@@ -10,6 +10,9 @@ vim.g.have_nerd_font = true
 
 ------------------------------- [VIM Options] -------------------------------
 
+-- Hide fill characters
+vim.opt.fillchars = { eob = " " }
+
 -- vertical split to right side so that current file stays in postion
 vim.opt.splitright = true
 
