@@ -114,12 +114,12 @@ return {
 			})
 
 			-- Create augroups once, outside of LspAttach to avoid accumulation
-			local highlight_augroup = vim.api.nvim_create_augroup("kickstart-lsp-highlight", { clear = true })
+			local highlight_augroup = vim.api.nvim_create_augroup("lsp-highlight", { clear = true })
 			vim.api.nvim_create_autocmd("LspDetach", {
-				group = vim.api.nvim_create_augroup("kickstart-lsp-detach", { clear = true }),
+				group = vim.api.nvim_create_augroup("lsp-detach", { clear = true }),
 				callback = function(event2)
 					vim.lsp.buf.clear_references()
-					vim.api.nvim_clear_autocmds({ group = "kickstart-lsp-highlight", buffer = event2.buf })
+					vim.api.nvim_clear_autocmds({ group = "lsp-highlight", buffer = event2.buf })
 				end,
 			})
 
@@ -130,7 +130,7 @@ return {
 
 					local client = vim.lsp.get_client_by_id(event.data.client_id)
 					if client == nil then
-						print("Failed to get lsp client")
+						vim.notify("Failed to get LSP client", vim.log.levels.ERROR)
 						return
 					end
 
