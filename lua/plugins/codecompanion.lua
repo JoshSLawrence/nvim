@@ -52,7 +52,7 @@ return {
 
 						-- NOTE: You can set these to 0 for auto width/height
 						width = 0.5, ---@return number|fun(): number
-						height = 0.8, ---@return number|fun(): number
+						height = 0.5, ---@return number|fun(): number
 
 						border = "single",
 						relative = "editor",

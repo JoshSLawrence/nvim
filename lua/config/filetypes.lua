@@ -6,6 +6,7 @@ vim.filetype.add({
 		tfstate = "json",
 		hcl = "terraform",
 		tmux = "tmux",
+		soql = "soql",
 	},
 	pattern = {
 		[".*%.tfstate.backup"] = "json",
