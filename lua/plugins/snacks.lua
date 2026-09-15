@@ -117,7 +117,7 @@ return {
 			},
 			picker = {
 				enabled = true,
-				layout = { preset = "default" },
+				layout = { preset = "select" },
 				win = {
 					input = {
 						keys = {
