@@ -32,6 +32,7 @@ return {
 			-- Disable virtual text in favor of tiny-inline-diagnostic.nvim
 			diagnostics = { virtual_text = false },
 			servers = {
+				regal = {},
 				lua_ls = {},
 				roslyn = {},
 				powershell_es = {
@@ -92,6 +93,20 @@ return {
 				filetypes = { "ghostty" },
 			}
 			vim.lsp.enable("ghostty")
+
+			-- SOQL language server (installed via `npm i -g @salesforce/soql-language-server`)
+			local npm_global_root = vim.fn.trim(vim.fn.system("npm root -g"))
+			vim.lsp.config("soql_ls", {
+				cmd = {
+					"node",
+					npm_global_root .. "/@salesforce/soql-language-server/lib/server.js",
+					"--stdio",
+				},
+				filetypes = { "soql" },
+				root_markers = { "sfdx-project.json", ".git", "package.json" },
+				single_file_support = true,
+			})
+			vim.lsp.enable("soql_ls")
 
 			for server, config in pairs(opts.servers) do
 				local capabilities = require("blink.cmp").get_lsp_capabilities(config.capabilities)

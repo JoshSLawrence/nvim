@@ -21,6 +21,22 @@ return {
 		"nvim-treesitter/nvim-treesitter",
 		lazy = false,
 		build = ":TSUpdate",
+		init = function()
+			-- Restrict mise-specific TOML injection queries (see
+			-- after/queries/toml/injections.scm) to actual mise config
+			-- files instead of every TOML file.
+			require("vim.treesitter.query").add_predicate("is-mise?", function(_, _, bufnr, _)
+				local filepath = vim.fs.normalize(vim.api.nvim_buf_get_name(tonumber(bufnr) or 0))
+				local filename = vim.fn.fnamemodify(filepath, ":t")
+				return filename:match("^%.?mise.*%.toml$") ~= nil
+					or filepath:match("/%.?mise/config%.toml$") ~= nil
+					or filepath:match("/%.?mise/config%.local%.toml$") ~= nil
+					or filepath:match("/%.?mise/config%.[^/]+%.toml$") ~= nil
+					or filepath:match("/%.config/mise/mise%.toml$") ~= nil
+					or filepath:match("/%.config/mise/mise%.local%.toml$") ~= nil
+					or filepath:match("/%.?mise/conf%.d/[^/]+%.toml$") ~= nil
+			end, { force = true, all = false })
+		end,
 		config = function()
 			-- Install parsers using the new API
 			require("nvim-treesitter").install({
@@ -44,6 +60,8 @@ return {
 				"xml",
 				"json",
 				"yaml",
+				"soql",
+				"toml",
 			})
 
 			-- Enable treesitter highlighting for specific filetypes
@@ -71,9 +89,29 @@ return {
 					"xml",
 					"json",
 					"yaml",
+					"soql",
+					"toml",
 				},
 				callback = function()
 					vim.treesitter.start()
+				end,
+			})
+		end,
+	},
+	{
+		"jmbuhr/otter.nvim",
+		dependencies = {
+			"nvim-treesitter/nvim-treesitter",
+		},
+		config = function()
+			-- Enable LSP features (hover, completion, diagnostics) for
+			-- languages injected into mise.toml `run` commands, e.g. via
+			-- after/queries/toml/injections.scm.
+			vim.api.nvim_create_autocmd("FileType", {
+				pattern = { "toml" },
+				group = vim.api.nvim_create_augroup("EmbedToml", {}),
+				callback = function()
+					require("otter").activate()
 				end,
 			})
 		end,
