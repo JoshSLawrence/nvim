@@ -20,8 +20,8 @@ require("config.tailwind-sort").setup()
 
 ------------------------------- [Default Theme] -------------------------------
 
--- vim.cmd("colorscheme tokyonight-night")
-vim.cmd("colorscheme catppuccin-mocha")
--- vim.cmd("colorscheme catppuccin-latte")
+-- The colorscheme is owned by auto-dark-mode.nvim (see lua/plugins/themes.lua),
+-- which follows the OS appearance: tokyonight-night (dark) / tokyonight-day
+-- (light). It runs during lazy setup above, so no colorscheme is set here.
 
 require("config.commands")
