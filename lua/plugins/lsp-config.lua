@@ -55,6 +55,10 @@ return {
 					settings = {
 						yaml = {
 							schemas = {
+								-- Separate patterns, not "*.k8s.{yml,yaml}": yamlls only
+								-- suppresses its spurious "Matches multiple schemas" error for
+								-- kubernetes files, and that check doesn't expand braces.
+								kubernetes = { "k8s-*.yml", "k8s-*.yaml", "*.k8s.yml", "*.k8s.yaml" },
 								["https://raw.githubusercontent.com/microsoft/azure-pipelines-vscode/master/service-schema.json"] = {
 									"**.azure-pipelines.{yml,yaml}",
 									"**.azure.{yml,yaml}",
