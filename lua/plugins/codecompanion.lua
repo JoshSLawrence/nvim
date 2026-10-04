@@ -86,16 +86,18 @@ return {
 			vim.keymap.set("v", "ga", "<cmd>CodeCompanionChat Add<cr>", { noremap = true, silent = true })
 
 			-- Copilot toggle
-			local copilot_enabled = false
+			-- copilot.vim only sets g:copilot_enabled after an explicit
+			-- enable/disable, so an unset value means it's on by default.
 			vim.api.nvim_create_user_command("ToggleCopilot", function()
-				if copilot_enabled then
-					vim.cmd("Copilot disable")
-					copilot_enabled = false
-				else
+				if vim.g.copilot_enabled == 0 then
 					vim.cmd("Copilot enable")
-					copilot_enabled = true
+					vim.notify("Copilot enabled")
+				else
+					vim.cmd("Copilot disable")
+					vim.notify("Copilot disabled")
 				end
 			end, {})
+			vim.keymap.set("n", "<leader>tc", "<cmd>ToggleCopilot<CR>", { desc = "[T]oggle [C]opilot" })
 		end,
 	},
 }

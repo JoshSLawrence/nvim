@@ -53,6 +53,8 @@ return {
 				"helm",
 				"html",
 				"css",
+				"javascript",
+				"typescript",
 				"tsx",
 				"diff",
 				"c_sharp",
@@ -93,7 +95,10 @@ return {
 					"toml",
 				},
 				callback = function()
-					vim.treesitter.start()
+					-- Parsers install asynchronously, so one may be missing on
+					-- first launch (or if an install failed). Don't blow up
+					-- opening the buffer in that case; just skip highlighting.
+					pcall(vim.treesitter.start)
 				end,
 			})
 		end,
