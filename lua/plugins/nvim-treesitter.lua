@@ -53,6 +53,8 @@ return {
 				"helm",
 				"html",
 				"css",
+				"javascript",
+				"typescript",
 				"tsx",
 				"diff",
 				"c_sharp",
