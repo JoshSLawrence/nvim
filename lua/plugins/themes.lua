@@ -14,6 +14,12 @@ return {
 		opts = {
 			transparent = true,
 		},
+		config = function(_, opts)
+			require("tokyonight").setup(opts)
+			-- auto-dark-mode applies its theme asynchronously after a dbus
+			-- query, so set a default now to avoid starting uncolored.
+			vim.cmd("colorscheme tokyonight-night")
+		end,
 	},
 	{
 		"rose-pine/neovim",
@@ -36,6 +42,9 @@ return {
 		"f-person/auto-dark-mode.nvim",
 		lazy = false,
 		priority = 1001,
+		-- Higher priority loads first, so without this the tokyonight
+		-- colorscheme isn't on the runtimepath when set_*_mode first fires.
+		dependencies = { "folke/tokyonight.nvim" },
 		opts = {
 			update_interval = 3000,
 			fallback = "dark",
@@ -45,7 +54,7 @@ return {
 			end,
 			set_light_mode = function()
 				vim.o.background = "light"
-				vim.cmd("colorscheme tokyonight-day")
+				vim.cmd("colorscheme tokyonight-night")
 			end,
 		},
 	},
