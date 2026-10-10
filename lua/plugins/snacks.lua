@@ -5,6 +5,49 @@ local function pick(name, opts)
 	end
 end
 
+-- Shuffle bag: draw quips without replacement, persisted across launches, so
+-- every quip shows once per cycle and none repeats back-to-back.
+local function random_header()
+	local quips = require("config.quips")
+	local path = vim.fn.stdpath("state") .. "/quips_bag.json"
+	-- Seed explicitly so the shuffle differs per launch regardless of Neovim's default.
+	math.randomseed(vim.uv.hrtime())
+
+	local state = {}
+	local ok, lines = pcall(vim.fn.readfile, path)
+	if ok then
+		local decoded_ok, decoded = pcall(vim.json.decode, table.concat(lines, "\n"))
+		if decoded_ok and type(decoded) == "table" then
+			state = decoded
+		end
+	end
+
+	-- A changed quip count means the saved indices are stale (quips added or
+	-- removed), so start a fresh bag instead of trusting them.
+	local bag = state.bag
+	if type(bag) ~= "table" or state.count ~= #quips then
+		bag = {}
+	end
+
+	if #bag == 0 then
+		for i = 1, #quips do
+			bag[i] = i
+		end
+		for i = #bag, 2, -1 do
+			local j = math.random(i)
+			bag[i], bag[j] = bag[j], bag[i]
+		end
+		-- Draws pop from the end; keep the last-shown quip from leading the new cycle.
+		if #bag > 1 and bag[#bag] == state.last then
+			bag[#bag], bag[1] = bag[1], bag[#bag]
+		end
+	end
+
+	local pick = table.remove(bag)
+	pcall(vim.fn.writefile, { vim.json.encode({ bag = bag, last = pick, count = #quips }) }, path)
+	return quips[pick]
+end
+
 return {
 	{
 		"folke/snacks.nvim",
@@ -67,13 +110,7 @@ return {
 						{ icon = " ", key = "q", desc = "Quit", action = ":qa" },
 					},
 					-- Used by the `header` section
-					header = [[
- █████╗ ██╗   ██╗ ██████╗ ██╗██████╗ ██╗███╗   ██╗ ██████╗     ██╗    ██╗ ██████╗ ██████╗ ██╗  ██╗
-██╔══██╗██║   ██║██╔═══██╗██║██╔══██╗██║████╗  ██║██╔════╝     ██║    ██║██╔═══██╗██╔══██╗██║ ██╔╝
-███████║██║   ██║██║   ██║██║██║  ██║██║██╔██╗ ██║██║  ███╗    ██║ █╗ ██║██║   ██║██████╔╝█████╔╝ 
-██╔══██║╚██╗ ██╔╝██║   ██║██║██║  ██║██║██║╚██╗██║██║   ██║    ██║███╗██║██║   ██║██╔══██╗██╔═██╗ 
-██║  ██║ ╚████╔╝ ╚██████╔╝██║██████╔╝██║██║ ╚████║╚██████╔╝    ╚███╔███╔╝╚██████╔╝██║  ██║██║  ██╗
-╚═╝  ╚═╝  ╚═══╝   ╚═════╝ ╚═╝╚═════╝ ╚═╝╚═╝  ╚═══╝ ╚═════╝      ╚══╝╚══╝  ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝]],
+					header = random_header(),
 				},
 				-- item field formatters
 				formats = {
