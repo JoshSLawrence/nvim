@@ -54,7 +54,7 @@ return {
 			end,
 			set_light_mode = function()
 				vim.o.background = "light"
-				vim.cmd("colorscheme tokyonight-night")
+				vim.cmd("colorscheme tokyonight-day")
 			end,
 		},
 	},

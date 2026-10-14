@@ -39,6 +39,9 @@ specs bundle a plugin with its companions).
 - [lazy.nvim](https://github.com/folke/lazy.nvim) for plugin management
 - [snacks.nvim](https://github.com/folke/snacks.nvim) as the picker,
   explorer, and general UI layer
-- Transparent colorschemes (catppuccin-mocha by default)
+- Transparent [tokyonight](https://github.com/folke/tokyonight.nvim), switched
+  between `tokyonight-night` and `tokyonight-day` by
+  [auto-dark-mode.nvim](https://github.com/f-person/auto-dark-mode.nvim) to
+  follow the OS appearance
 - A small custom Tailwind class sorter in
   `lua/config/tailwind-sort.lua`
