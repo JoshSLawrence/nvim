@@ -18,13 +18,9 @@ vim.api.nvim_create_autocmd("FileChangedShellPost", {
 
 vim.api.nvim_create_autocmd("BufWritePre", {
 	pattern = { "*.html", "*.js", "*.jsx", "*.ts", "*.tsx", "*.vue" },
-	callback = function()
-		local clients = vim.lsp.get_clients()
-		for _, client in ipairs(clients) do
-			if client.name == "tailwindcss" then
-				vim.cmd("TailwindSort")
-				break
-			end
+	callback = function(args)
+		if #vim.lsp.get_clients({ bufnr = args.buf, name = "tailwindcss" }) > 0 then
+			require("config.tailwind-sort").sort_classes(args.buf)
 		end
 	end,
 })
