@@ -95,14 +95,18 @@ return {
 			}
 			vim.lsp.enable("ghostty")
 
-			-- SOQL language server (installed via `npm i -g @salesforce/soql-language-server`)
-			local npm_global_root = vim.fn.trim(vim.fn.system("npm root -g"))
+			-- SOQL language server (installed via `npm i -g @salesforce/soql-language-server`).
+			-- cmd is a function so the blocking `npm root -g` call (~100ms) runs when
+			-- the first SOQL buffer opens rather than on every startup.
 			vim.lsp.config("soql_ls", {
-				cmd = {
-					"node",
-					npm_global_root .. "/@salesforce/soql-language-server/lib/server.js",
-					"--stdio",
-				},
+				cmd = function(dispatchers, config)
+					local npm_global_root = vim.fn.trim(vim.fn.system("npm root -g"))
+					return vim.lsp.rpc.start({
+						"node",
+						npm_global_root .. "/@salesforce/soql-language-server/lib/server.js",
+						"--stdio",
+					}, dispatchers, { cwd = config.cmd_cwd, env = config.cmd_env })
+				end,
 				filetypes = { "soql" },
 				root_markers = { "sfdx-project.json", ".git", "package.json" },
 			})

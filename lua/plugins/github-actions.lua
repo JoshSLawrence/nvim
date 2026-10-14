@@ -3,9 +3,8 @@
 
 return {
 	"skanehira/github-actions.nvim",
-	dependencies = {
-		"nvim-treesitter/nvim-treesitter",
-		"nvim-telescope/telescope.nvim", -- Optional: for enhanced workflow selection
-	},
+	-- telescope.nvim is an optional dependency; without it the plugin falls
+	-- back to vim.ui.select, which Snacks provides.
+	dependencies = { "nvim-treesitter/nvim-treesitter" },
 	opts = {},
 }
