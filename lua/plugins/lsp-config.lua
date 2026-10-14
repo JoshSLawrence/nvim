@@ -95,15 +95,28 @@ return {
 			}
 			vim.lsp.enable("ghostty")
 
-			-- SOQL language server (installed via `npm i -g @salesforce/soql-language-server`).
-			-- cmd is a function so the blocking `npm root -g` call (~100ms) runs when
-			-- the first SOQL buffer opens rather than on every startup.
+			-- SOQL language server. Installed by mise (npm:@salesforce/soql-language-server
+			-- in the global mise config) so node upgrades don't drop it, as they did
+			-- with `npm i -g`. The package has no bin, so run its server.js with node.
+			-- cmd is a function so the blocking `mise where` call runs when the first
+			-- SOQL buffer opens rather than on every startup.
 			vim.lsp.config("soql_ls", {
 				cmd = function(dispatchers, config)
-					local npm_global_root = vim.fn.trim(vim.fn.system("npm root -g"))
+					local tool = "npm:@salesforce/soql-language-server"
+					-- vim.system keeps stderr out of the path; mise prints warnings there.
+					local res = vim.system({ "mise", "where", tool }, { text = true }):wait()
+					local root = vim.trim(res.stdout or "")
+					if res.code ~= 0 or root == "" then
+						error(
+							("soql_ls: mise cannot find %s. Run `mise install %s` and reopen the file."):format(
+								tool,
+								tool
+							)
+						)
+					end
 					return vim.lsp.rpc.start({
 						"node",
-						npm_global_root .. "/@salesforce/soql-language-server/lib/server.js",
+						root .. "/node_modules/@salesforce/soql-language-server/lib/server.js",
 						"--stdio",
 					}, dispatchers, { cwd = config.cmd_cwd, env = config.cmd_env })
 				end,

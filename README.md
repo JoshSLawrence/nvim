@@ -18,6 +18,10 @@ LSP servers, formatters, and linters are installed automatically via
 (stylua, prettierd, csharpier, black, markdownlint, and the language
 servers configured in `lua/plugins/lsp-config.lua`).
 
+Two servers come from elsewhere: the SOQL server is a mise tool
+(`npm:@salesforce/soql-language-server`, declared in my dotfiles' global
+mise config) and C# uses the Roslyn server bundled with easy-dotnet.nvim.
+
 ## Structure
 
 ```text
