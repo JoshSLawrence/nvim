@@ -3,6 +3,10 @@ repos:
     rev: v6.0.0
     hooks:
       - id: trailing-whitespace
-        exclude: lua/plugins/snacks.lua # header has required whitespace
+        exclude: lua/config/quips.lua # header art relies on trailing spaces
       - id: check-added-large-files
         args: ["--maxkb=500"]
+  - repo: https://github.com/JohnnyMorganz/StyLua
+    rev: v2.6.0
+    hooks:
+      - id: stylua-system # uses the stylua mason installs (~/.local/share/nvim/mason/bin)
