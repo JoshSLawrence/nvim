@@ -12,23 +12,24 @@ vim.keymap.set("n", "<C-k>", "<C-w><C-k>", { desc = "Move focus to the upper win
 vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", { noremap = true, desc = "Return to normal mode" })
 vim.keymap.set("n", "<leader>tt", "<cmd>vsplit | terminal<CR>", { noremap = true, desc = "[C]reate [T]erminal" })
 
--- Refresh LSP for current buffer. Fixes stale semantic tokens after external
--- file changes (e.g., from AI agents). Discovered with terraformls but may
--- affect other LSP servers that provide semantic tokens.
+-- Re-request semantic tokens for a buffer. Fixes stale highlighting after
+-- external file changes (e.g., from AI agents). Discovered with terraformls
+-- but may affect other LSP servers that provide semantic tokens.
+--
+-- This deliberately does not restart clients: a client is usually shared by
+-- several buffers, and stopping it detaches it from all of them (they only
+-- re-attach on FileType). Use :LspRestart for a full restart.
 -- Exported so config.autocmds can reuse it on FileChangedShellPost.
-function M.refresh_lsp()
-	local buf = vim.api.nvim_get_current_buf()
-	for _, client in ipairs(vim.lsp.get_clients({ bufnr = buf })) do
-		client:stop()
+function M.refresh_lsp(bufnr)
+	bufnr = bufnr or vim.api.nvim_get_current_buf()
+	if not vim.api.nvim_buf_is_valid(bufnr) then
+		return
 	end
-	-- Re-trigger filetype to restart LSP clients via vim.lsp.enable
-	local ft = vim.bo[buf].filetype
-	vim.bo[buf].filetype = ""
-	vim.schedule(function()
-		vim.bo[buf].filetype = ft
-	end)
+	vim.lsp.semantic_tokens.force_refresh(bufnr)
 end
 
-vim.keymap.set("n", "<leader>uH", M.refresh_lsp, { desc = "Refresh LSP" })
+vim.keymap.set("n", "<leader>uH", function()
+	M.refresh_lsp()
+end, { desc = "Refresh LSP semantic tokens" })
 
 return M
