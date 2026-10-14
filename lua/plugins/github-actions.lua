@@ -3,6 +3,7 @@
 
 return {
 	"skanehira/github-actions.nvim",
+	ft = "yaml",
 	-- telescope.nvim is an optional dependency; without it the plugin falls
 	-- back to vim.ui.select, which Snacks provides.
 	dependencies = { "nvim-treesitter/nvim-treesitter" },

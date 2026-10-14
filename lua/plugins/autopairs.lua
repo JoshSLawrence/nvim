@@ -1,6 +1,7 @@
 return {
 	{
 		"windwp/nvim-ts-autotag",
+		ft = { "html", "xml", "javascriptreact", "typescriptreact", "vue", "svelte", "markdown" },
 		opts = {
 			-- NOTE: This plugin opts layout is odd nested opts > opts,
 			-- and opts outside of opts > opts, e.g. opts > per_filetype, opts > enable_close
