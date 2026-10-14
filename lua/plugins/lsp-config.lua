@@ -81,6 +81,10 @@ return {
 
 			require("mason-tool-installer").setup({
 				ensure_installed = ensure_installed,
+				-- Check the registry a few seconds after startup, and at most once a
+				-- day, instead of on every launch.
+				start_delay = 3000,
+				debounce_hours = 24,
 				integrations = {
 					-- Only used so that lspconfig names can be used
 					["mason-lspconfig"] = true,

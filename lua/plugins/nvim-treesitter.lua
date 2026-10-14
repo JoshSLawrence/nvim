@@ -105,6 +105,7 @@ return {
 	},
 	{
 		"jmbuhr/otter.nvim",
+		ft = "toml",
 		dependencies = {
 			"nvim-treesitter/nvim-treesitter",
 		},
