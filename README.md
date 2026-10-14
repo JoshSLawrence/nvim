@@ -45,3 +45,15 @@ specs bundle a plugin with its companions).
   follow the OS appearance
 - A small custom Tailwind class sorter in
   `lua/config/tailwind-sort.lua`
+
+## Development
+
+Formatting and whitespace are enforced with
+[pre-commit](https://pre-commit.com). The StyLua hook runs the `stylua`
+binary that mason installs, so make sure `~/.local/share/nvim/mason/bin`
+is on your `PATH`, then:
+
+```sh
+pre-commit install
+pre-commit run --all-files
+```
