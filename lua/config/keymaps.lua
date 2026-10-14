@@ -10,7 +10,7 @@ vim.keymap.set("n", "<C-k>", "<C-w><C-k>", { desc = "Move focus to the upper win
 
 -- Open terminal in vsplit, bind double escape in terminal mode to return to normal mode
 vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", { noremap = true, desc = "Return to normal mode" })
-vim.keymap.set("n", "<leader>tt", "<cmd>vsplit | terminal<CR>", { noremap = true, desc = "[C]reate [T]erminal" })
+vim.keymap.set("n", "<leader>tt", "<cmd>vsplit | terminal<CR>", { noremap = true, desc = "Open [T]erminal in vsplit" })
 
 -- Re-request semantic tokens for a buffer. Fixes stale highlighting after
 -- external file changes (e.g., from AI agents). Discovered with terraformls

@@ -27,7 +27,8 @@ servers configured in `lua/plugins/lsp-config.lua`).
 ├── lua/
 │   ├── config/           # Core editor config (options, keymaps, autocmds…)
 │   └── plugins/          # Feature-grouped lazy.nvim specs
-└── queries/              # Custom Treesitter queries
+├── queries/              # Custom Treesitter queries (Tailwind class ranges)
+└── after/queries/        # Query extensions (mise.toml run-command injections)
 ```
 
 Files under `lua/plugins/` are grouped by topic rather than strictly one

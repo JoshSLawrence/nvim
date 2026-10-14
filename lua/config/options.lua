@@ -5,9 +5,6 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 
--- NOTE: I have configured plugins that optionally support nerd fonts to query this setting
-vim.g.have_nerd_font = true
-
 ------------------------------- [VIM Options] -------------------------------
 
 -- Hide fill characters
