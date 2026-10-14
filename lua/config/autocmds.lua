@@ -8,11 +8,13 @@ vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold" }, {
 	command = "checktime",
 })
 
--- After an external change is detected and the buffer reloads, restart LSP
--- to clear stale semantic tokens. See keymaps.refresh_lsp() for details.
+-- After an external change is detected and the buffer reloads, re-request
+-- semantic tokens to clear stale highlighting. See keymaps.refresh_lsp().
 vim.api.nvim_create_autocmd("FileChangedShellPost", {
-	callback = function()
-		vim.schedule(keymaps.refresh_lsp)
+	callback = function(args)
+		vim.schedule(function()
+			keymaps.refresh_lsp(args.buf)
+		end)
 	end,
 })
 
