@@ -26,4 +26,7 @@ require("lazy").setup({
 	install = { colorscheme = { "tokyonight-night", "habamax" } },
 	-- automatically check for plugin updates
 	checker = { enabled = false },
+	-- No plugin here needs luarocks; skip the hererocks bootstrap and its
+	-- checkhealth warning.
+	rocks = { enabled = false },
 })

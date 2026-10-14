@@ -1,8 +1,11 @@
 return {
+	-- Only tokyonight is applied at startup (see auto-dark-mode below). The
+	-- other colorschemes are lazy and load on demand, e.g. via the Snacks
+	-- colorschemes picker (<leader>uC), which scans unloaded plugins too.
 	{
 		"catppuccin/nvim",
 		name = "catppuccin",
-		priority = 1000,
+		lazy = true,
 		opts = {
 			transparent_background = true,
 		},
@@ -24,17 +27,17 @@ return {
 	{
 		"rose-pine/neovim",
 		name = "rose-pine",
-		priority = 1000,
+		lazy = true,
 		opts = {},
 	},
 	{
 		"webhooked/kanso.nvim",
-		lazy = false,
-		priority = 1000,
+		lazy = true,
 		opts = {},
 	},
 	{
 		"ayu-theme/ayu-vim",
+		lazy = true,
 	},
 	{
 		-- Follow the OS light/dark setting (macOS, Linux desktops, and WSL).
