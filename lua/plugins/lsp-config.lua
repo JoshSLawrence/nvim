@@ -19,7 +19,6 @@ return {
 				opts = {
 					registries = {
 						"github:mason-org/mason-registry",
-						"github:Crashdummyy/mason-registry", -- For C# rosyln language server
 						"github:mkindberg/ghostty-ls", -- For Ghostty LS
 					},
 				},
@@ -29,14 +28,13 @@ return {
 			"saghen/blink.cmp",
 		},
 		opts = {
-			-- Disable virtual text in favor of tiny-inline-diagnostic.nvim
-			diagnostics = { virtual_text = false },
+			-- NOTE: C# is not listed here. easy-dotnet.nvim (lua/plugins/easy-dotnet.lua)
+			-- runs its own Roslyn language server via its bundled dotnet-easydotnet tool.
 			servers = {
 				regal = {},
 				lua_ls = {},
-				roslyn = {},
 				powershell_es = {
-					bundle_path = "~/.local/share/nvim/mason/packages/powershell-editor-services/",
+					bundle_path = vim.fn.stdpath("data") .. "/mason/packages/powershell-editor-services/",
 				},
 				bashls = {},
 				terraformls = {},
@@ -78,7 +76,6 @@ return {
 				"csharpier",
 				"black",
 				"markdownlint",
-				"pyright",
 				"prettierd",
 			})
 
@@ -108,7 +105,6 @@ return {
 				},
 				filetypes = { "soql" },
 				root_markers = { "sfdx-project.json", ".git", "package.json" },
-				single_file_support = true,
 			})
 			vim.lsp.enable("soql_ls")
 
@@ -116,14 +112,8 @@ return {
 				local capabilities = require("blink.cmp").get_lsp_capabilities(config.capabilities)
 				config.capabilities = vim.tbl_deep_extend("force", {}, capabilities, config.capabilities or {})
 
-				-- NOTE: Roslyn language server is handled by the seblyng/roslyn.nvim
-				-- plugin above, lspconfig should not enable the server. We have the
-				-- server in opts.servers so that mason-tool-installer, installs it.
-				-- WARNING: lspconfig refers to roslyn as roslyn_ls if enable is moved
-				if server ~= "roslyn" and server ~= "rzls" then
-					vim.lsp.config(server, config)
-					vim.lsp.enable(server)
-				end
+				vim.lsp.config(server, config)
+				vim.lsp.enable(server)
 			end
 
 			require("mason-lspconfig").setup({
